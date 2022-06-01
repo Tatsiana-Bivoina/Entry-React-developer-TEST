@@ -1,0 +1,88 @@
+@import '../../variables.scss';
+
+.header {
+  height: 80px;
+}
+
+.header-container {
+  display: flex;
+  justify-content: space-between;
+  padding-top: 25px;
+  box-sizing: border-box;
+  width: 100%;
+  height: 100%;
+}
+
+.page-navigation {
+  display: flex;
+  width: 235px;
+  height: 56px;
+}
+
+button {
+  padding-left: 0;
+  padding-right: 0;
+  background-color: transparent;
+  border: none;
+}
+
+.nav-item {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  text-align: center;
+  font-family: $text-font;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 120%;
+  text-transform: uppercase;
+  color: $text-color;
+
+  &.active {
+    color: #5ECE7B;
+    border-bottom: 2px solid #5ECE7B;
+  }
+}
+
+.item-kids {
+  width: 68px;
+}
+
+.item-women {
+  width: 97px;
+}
+
+.item-men {
+  width: 69px;
+}
+
+.logo-container {
+  position: relative;
+  left: -16px;
+}
+
+.cart-currency-container {
+  width: 204px;
+  display: flex;
+  justify-content: flex-end;
+  padding-top: 9px;
+  box-sizing: border-box;
+}
+
+.cart {
+  width: 20px;
+  height: 20px;
+  background-image: url('../../../public/cart-icon.png');
+  margin-left: 16px;
+}
+
+.currency {
+  position: relative;
+  top: -5px;
+  width: 38px;
+  height: 29px;
+  font-family: $text-font;
+  font-size: 18px;
+  border: none;
+}

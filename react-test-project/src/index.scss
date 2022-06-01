@@ -1,0 +1,22 @@
+@import './variables.scss';
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+#root {
+  position: relative;
+}
+
+body {
+  margin: 0;
+  background-color: $background-color;
+}
+
+.wrapper {
+  max-width: 1240px;
+  height: 100%;
+  margin: 0 auto;
+}
