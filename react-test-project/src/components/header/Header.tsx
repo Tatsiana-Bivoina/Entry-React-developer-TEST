@@ -1,19 +1,35 @@
 import React, { Component } from 'react';
+import { NavLink } from 'react-router-dom';
 import './header.scss';
 
 export default class Header extends Component {
   render() {
     return (
-      <header className='header'>
+      <header className="header">
         <div className="wrapper">
           <div className="header-container">
             <div className="page-navigation">
-              <button className="nav-item item-women active">Women</button>
-              <button className="nav-item item-men">Men</button>
-              <button className="nav-item item-kids">Kids</button>
+              <NavLink
+                to="/category/all"
+                className={({ isActive }) => (isActive ? 'nav-item active' : 'nav-item')}
+              >
+                All
+              </NavLink>
+              <NavLink
+                to="/category/clothes"
+                className={({ isActive }) => (isActive ? 'nav-item active' : 'nav-item')}
+              >
+                Clothes
+              </NavLink>
+              <NavLink
+                to="/category/tech"
+                className={({ isActive }) => (isActive ? 'nav-item active' : 'nav-item')}
+              >
+                Tech
+              </NavLink>
             </div>
             <div className="logo-container">
-              <img src="./a-logo.png" alt="logo" />
+              <img src="../../a-logo.png" alt="logo" />
             </div>
             <div className="cart-currency-container">
               <select name="currency" id="currency" className="currency">
@@ -26,6 +42,6 @@ export default class Header extends Component {
           </div>
         </div>
       </header>
-    )
+    );
   }
 }

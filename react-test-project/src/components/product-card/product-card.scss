@@ -1,20 +1,37 @@
 @import '../../variables.scss';
 
 .card {
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
   width: 386px;
   height: 444px;
+  padding: 16px;
   box-sizing: border-box;
 
-  &:hover {
+  &:not(.overlay):hover {
     cursor: pointer;
     box-shadow: 0px 4px 35px rgba(168, 172, 176, 0.19);
   }
+
+  &:not(.overlay):hover .cart-link-container {
+    visibility: visible;
+  }
+}
+
+.cart-link-container {
+  width: 52px;
+  height: 52px;
+  position: absolute;
+  bottom: 87px;
+  right: 32px;
+  background-image: url('../../../public/btn-cart-icon.png');
+  visibility: hidden;
 }
 
 .img-container {
+  position: relative;
   width: 354px;
   height: 330px;
   margin-bottom: 24px;
@@ -25,13 +42,37 @@
   }
 }
 
+.product-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: $background-color;
+  opacity: 0.5;
+}
+
+.overlay-title {
+  position: absolute;
+  top: 114px;
+  left: 89px;
+  font-weight: 400;
+  font-size: 24px;
+  line-height: 160%;
+  color: $overlay-text-color;
+}
+
 .product-title,
 .product-price {
   align-self: flex-start;
-  margin: 0 0 0 15px;
+  margin: 0;
   font-weight: 300;
   font-size: 18px;
   line-height: 160%;
+
+  &.overlay {
+    color: $overlay-text-color;
+  }
 }
 
 .product-price {

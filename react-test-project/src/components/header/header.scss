@@ -30,6 +30,7 @@ button {
   display: flex;
   align-items: flex-start;
   justify-content: center;
+  width: 78px;
   text-align: center;
   font-family: $text-font;
   font-style: normal;
@@ -37,24 +38,13 @@ button {
   font-size: 16px;
   line-height: 120%;
   text-transform: uppercase;
+  text-decoration: none;
   color: $text-color;
 
   &.active {
     color: #5ECE7B;
     border-bottom: 2px solid #5ECE7B;
   }
-}
-
-.item-kids {
-  width: 68px;
-}
-
-.item-women {
-  width: 97px;
-}
-
-.item-men {
-  width: 69px;
 }
 
 .logo-container {
