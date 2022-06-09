@@ -1,8 +1,12 @@
 import React, { Component } from 'react';
+import { connect, ConnectedProps } from 'react-redux';
 import { NavLink } from 'react-router-dom';
+import { RootState } from '../..';
 import './header.scss';
 
-export default class Header extends Component {
+export type Props = Readonly<PropsFromRedux>;
+
+export class Header extends Component<Props> {
   render() {
     return (
       <header className="header">
@@ -37,7 +41,12 @@ export default class Header extends Component {
                 <option value="€">€ EUR</option>
                 <option value="¥">¥ JPY</option>
               </select>
-              <button className="cart"></button>
+              <div className="cart-container">
+                <button className="cart"></button>
+                {this.props.cart.length > 0 && (
+                  <span className="cart-product-count">{this.props.cart.length}</span>
+                )}
+              </div>
             </div>
           </div>
         </div>
@@ -45,3 +54,15 @@ export default class Header extends Component {
     );
   }
 }
+
+const mapStateToProps = (state: RootState) => {
+  return {
+    cart: state.cartReducer,
+  };
+};
+
+const connector = connect(mapStateToProps);
+
+type PropsFromRedux = ConnectedProps<typeof connector>;
+
+export default connector(Header);

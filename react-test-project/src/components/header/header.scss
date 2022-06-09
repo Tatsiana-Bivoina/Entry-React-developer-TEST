@@ -61,10 +61,12 @@ button {
 }
 
 .cart {
+  position: relative;
   width: 20px;
   height: 20px;
   background-image: url('../../../public/cart-icon.png');
   margin-left: 16px;
+  z-index: 10;
 }
 
 .currency {
@@ -75,4 +77,27 @@ button {
   font-family: $text-font;
   font-size: 18px;
   border: none;
+}
+
+.cart-container {
+  position: relative;
+  z-index: 10;
+}
+
+.cart-product-count {
+  position: absolute;
+  right: -13px;
+  top: -8px;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: $text-color;
+  border-radius: 60px;
+  font-family: $roboto-font;
+  font-size: 14px;
+  line-height: 16px;
+  color: $color-white;
+  z-index: 5;
 }

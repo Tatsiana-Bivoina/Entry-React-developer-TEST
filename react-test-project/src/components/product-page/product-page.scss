@@ -1,0 +1,135 @@
+@import '../../variables.scss';
+
+.product-page-section {
+  padding-top: 33px;
+}
+
+.product-page-container {
+  display: flex;
+}
+
+.photo-container {
+  display: flex;
+}
+
+.min-photo-container {
+  display: flex;
+  flex-direction: column;
+  margin-right: 40px;
+}
+
+.min-photo {
+  width: 79px;
+  height: 80px;
+  margin-bottom: 37px;
+  box-sizing: border-box;
+  transition: .8s;
+
+  &:hover,
+  &.active {
+    border: 1px solid $text-color;
+    cursor: pointer;
+  }
+}
+
+.max-photo-container {
+  margin-right: 98px;
+}
+
+.max-photo {
+  width: 610px;
+  height: 511px;
+}
+
+.product-brand,
+.product-name {
+  font-weight: 600;
+  font-size: 30px;
+  line-height: 27px;
+  margin-top: 0;
+  margin-bottom: 19px;
+}
+
+.product-name {
+  font-weight: 400;
+  margin-bottom: 43px;
+}
+
+.attribute-type,
+.product-price-title {
+  font-family: $roboto-condensed-font;
+  font-weight: 700;
+  font-size: 18px;
+  line-height: 18px;
+  text-transform: uppercase;
+  margin-top: 25px;
+  margin-bottom: 6px;
+}
+
+.attribute-btn {
+  width: 63px;
+  height: 45px;
+  border: 1px solid $text-color;
+  margin-right: 12px;
+  transition: .8s;
+
+  &:hover,
+  &.active {
+    background: $text-color;
+    color: $color-white;
+    cursor: pointer;
+  }
+}
+
+.product-current-price {
+  font-weight: 700;
+  font-size: 24px;
+  line-height: 18px;
+  margin-bottom: 33px;
+}
+
+.btn-add-to-cart {
+  background-color: $btn-color;
+  width: 292px;
+  height: 52px;
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 120%;
+  color: $color-white;
+  text-transform: uppercase;
+  box-sizing: border-box;
+  transition: .8s;
+
+  &:hover,
+  &.active {
+    border: 1px solid $color-green;
+    cursor: pointer;
+  }
+}
+
+.attribute-color-container {
+  display: flex;
+  padding-top: 3px;
+  margin-bottom: 39px;
+}
+
+.attribute-btn-color {
+  width: 32px;
+  height: 32px;
+  margin-right: 11px;
+  box-sizing: border-box;
+
+  &:hover,
+  &.active {
+    border: 2px solid $color-green;
+    cursor: pointer;
+  }
+}
+
+.product-description {
+  font-family: $roboto-font;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 159.96%;
+  margin-top: 38px;
+}

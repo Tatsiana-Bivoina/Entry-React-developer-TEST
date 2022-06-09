@@ -1,36 +1,36 @@
-export type ApolloQueryResultType = {
+export interface ApolloQueryResultType {
   category: AllProductsMinResponse;
-};
+}
 
-export type PriceType = {
+export interface PriceType {
   currency: {
     label: string;
     symbol: string;
   };
   amount: number;
-};
+}
 
-export type ItemType = {
+export interface ItemType {
   displayValue: string;
   value: string;
-};
+}
 
-export type AttributesType = {
+export interface AttributesType {
   name: string;
   type: string;
   items: ItemType[];
-};
+}
 
-export type CategoryProductsMinResponse = {
+export interface CategoryProductsMinResponse {
   id: string;
   name: string;
   inStock: boolean;
   gallery: string[];
   prices: PriceType[];
   category: string;
-};
+}
 
-export type ProductDataType = {
+export interface ProductDataType {
   id: string;
   category: string;
   name: string;
@@ -39,9 +39,21 @@ export type ProductDataType = {
   attributes: AttributesType[];
   brand: string;
   prices: PriceType[];
-};
+}
 
-export type AllProductsMinResponse = {
+export interface AllProductsMinResponse {
   name: string;
   products: CategoryProductsMinResponse[];
-};
+}
+
+export interface activeAttributesType {
+  activeColor: string;
+  activeCapacity: string;
+  activeSize: string;
+  activeWithUSBPorts: string;
+  activeTouchId: string;
+}
+
+export interface CartDataType extends ProductDataType {
+  activeAttributes: activeAttributesType;
+}

@@ -1,4 +1,4 @@
-import { CategoryProductsMinResponse } from './productType';
+import { CartDataType, CategoryProductsMinResponse } from './productType';
 
 export type CategoryProductsActionType = {
   type: string;
@@ -8,4 +8,9 @@ export type CategoryProductsActionType = {
 export type CurrentProductActionType = {
   type: string;
   payload: string;
+};
+
+export type CartActionType = {
+  type: string;
+  payload: CartDataType;
 };
