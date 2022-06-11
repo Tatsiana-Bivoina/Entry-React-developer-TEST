@@ -14,3 +14,8 @@ export type CartActionType = {
   type: string;
   payload: CartDataType;
 };
+
+export type CurrencyActionType = {
+  type: string;
+  payload: string;
+};

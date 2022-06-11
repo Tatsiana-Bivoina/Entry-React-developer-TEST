@@ -41,6 +41,15 @@ export interface ProductDataType {
   prices: PriceType[];
 }
 
+export interface CurrenciesDataType {
+  label: string;
+  symbol: string;
+}
+
+export interface CurrencyType {
+  currentCurrency: string;
+}
+
 export interface AllProductsMinResponse {
   name: string;
   products: CategoryProductsMinResponse[];

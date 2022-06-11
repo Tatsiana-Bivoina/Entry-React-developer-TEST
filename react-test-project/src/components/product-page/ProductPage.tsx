@@ -6,6 +6,7 @@ import {
   AttributesType,
   CartDataType,
   ItemType,
+  PriceType,
   ProductDataType,
 } from '../../types/productType';
 import { getCurrentProductDataQuery } from './queries';
@@ -15,6 +16,7 @@ type Props = Readonly<PropsFromRedux>;
 
 type ProductPageState = {
   currentProductData: ProductDataType;
+  productCurrencyIndex: number;
   activeMinPhoto: string;
   maxPhotoSrc: string;
   activeAttributes: activeAttributesType;
@@ -55,6 +57,7 @@ export class ProductPage extends Component<Props, ProductPageState> {
     super(props);
     this.state = {
       currentProductData: emptyCurrentProductData,
+      productCurrencyIndex: 0,
       activeMinPhoto: '0',
       maxPhotoSrc: '',
       activeAttributes: {
@@ -78,6 +81,20 @@ export class ProductPage extends Component<Props, ProductPageState> {
     const data = await this.getData();
     this.setState({ currentProductData: data });
     this.setState({ maxPhotoSrc: data.gallery[0] });
+    this.changeProductCurrencyIndex(data);
+  }
+
+  componentDidUpdate(prevProps: Readonly<Props>) {
+    if (prevProps.currentCurrency !== this.props.currentCurrency) {
+      this.changeProductCurrencyIndex(this.state.currentProductData);
+    }
+  }
+
+  changeProductCurrencyIndex(data: ProductDataType) {
+    const currencyElemIndex: number = data.prices.findIndex(
+      (elem: PriceType) => elem.currency.symbol === this.props.currentCurrency
+    );
+    this.setState({ productCurrencyIndex: currencyElemIndex });
   }
 
   chooseClassName(name: string, index: number): string {
@@ -226,8 +243,8 @@ export class ProductPage extends Component<Props, ProductPageState> {
                 })}
                 <h5 className="product-price-title">Price:</h5>
                 <p className="product-current-price">
-                  {currentProductData.prices[0].currency.symbol}
-                  {currentProductData.prices[0].amount}
+                  {currentProductData.prices[this.state.productCurrencyIndex].currency.symbol}&nbsp;
+                  {currentProductData.prices[this.state.productCurrencyIndex].amount}
                 </p>
                 <button className="btn-add-to-cart" onClick={() => this.addProductToCart()}>
                   Add to cart
@@ -250,6 +267,7 @@ export class ProductPage extends Component<Props, ProductPageState> {
 const mapStateToProps = (state: RootState) => {
   return {
     currentProductId: state.currentProductIdReducer,
+    currentCurrency: state.currencyReducer.currentCurrency,
   };
 };
 

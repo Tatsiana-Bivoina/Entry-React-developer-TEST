@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { connect, ConnectedProps } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { AppDispatch } from '../..';
-import { CategoryProductsMinResponse } from '../../types/productType';
+import { AppDispatch, RootState } from '../..';
+import { CategoryProductsMinResponse, PriceType } from '../../types/productType';
 import './product-card.scss';
 
 export interface CardProps extends PropsFromRedux {
@@ -12,7 +12,35 @@ export interface CardProps extends PropsFromRedux {
 
 export type Props = Readonly<CardProps>;
 
-export class ProductCard extends Component<Props> {
+type ProductCardState = {
+  productCurrencyIndex: number;
+};
+
+export class ProductCard extends Component<Props, ProductCardState> {
+  constructor(props: Props) {
+    super(props);
+    this.state = {
+      productCurrencyIndex: 0,
+    };
+  }
+
+  componentDidMount() {
+    this.changeProductCurrencyIndex(this.props.cardData);
+  }
+
+  componentDidUpdate(prevProps: Readonly<Props>) {
+    if (prevProps.currentCurrency !== this.props.currentCurrency) {
+      this.changeProductCurrencyIndex(this.props.cardData);
+    }
+  }
+
+  changeProductCurrencyIndex(data: CategoryProductsMinResponse) {
+    const currencyElemIndex: number = data.prices.findIndex(
+      (elem: PriceType) => elem.currency.symbol === this.props.currentCurrency
+    );
+    this.setState({ productCurrencyIndex: currencyElemIndex });
+  }
+
   render() {
     const { cardData, getCurrentProductId } = this.props;
 
@@ -31,7 +59,8 @@ export class ProductCard extends Component<Props> {
           {cardData.name}
         </h3>
         <p className={cardData.inStock ? 'product-price' : 'product-price overlay'}>
-          {cardData.prices[0].currency.symbol} {cardData.prices[0].amount}
+          {cardData.prices[this.state.productCurrencyIndex].currency.symbol}&nbsp;
+          {cardData.prices[this.state.productCurrencyIndex].amount}
         </p>
         <Link
           to={`/category/${cardData.category}/${cardData.id}`}
@@ -45,13 +74,19 @@ export class ProductCard extends Component<Props> {
   }
 }
 
+const mapStateToProps = (state: RootState) => {
+  return {
+    currentCurrency: state.currencyReducer.currentCurrency,
+  };
+};
+
 const mapDispatchToProps = (dispatch: AppDispatch) => {
   return {
     getCurrentProductId: (id: string) => dispatch({ type: 'GET_CURRENT_PRODUCT_ID', payload: id }),
   };
 };
 
-const connector = connect(null, mapDispatchToProps);
+const connector = connect(mapStateToProps, mapDispatchToProps);
 
 type PropsFromRedux = ConnectedProps<typeof connector>;
 
