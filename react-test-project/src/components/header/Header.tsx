@@ -18,6 +18,10 @@ const DropDownHeader = styled('div')`
   color: #1d1f22;
   background: transparent;
 
+  &:hover {
+    cursor: pointer;
+  }
+
   span {
     position: absolute;
     right: 23px;
@@ -117,6 +121,7 @@ export class Header extends Component<Props, HeaderState> {
   }
 
   onOptionClicked(value: string) {
+    this.props.changeCurrency(value);
     this.setState({ selectedOption: value });
     this.setState({ isOpen: false });
   }
