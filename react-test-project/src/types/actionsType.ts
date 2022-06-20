@@ -19,3 +19,24 @@ export type CurrencyActionType = {
   type: string;
   payload: string;
 };
+
+export type ModalCartActionType = {
+  type: string;
+  payload: boolean;
+};
+
+export type TotalDataCountActionType = {
+  type: string;
+  payload: {
+    data: CartDataType[];
+    currencyIndex: number;
+  };
+};
+
+export type ResetTotalDataCountActionType = {
+  type: 'RESET_TOTAL_DATA_COUNT';
+};
+
+export type ClearCartActionType = {
+  type: 'CLEAR_CART';
+};

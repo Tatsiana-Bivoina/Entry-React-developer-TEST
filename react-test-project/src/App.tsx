@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Navigate, Route, Routes } from 'react-router-dom';
+import CartPage from './components/cart-page/CartPage';
 import CategoryPage from './components/category-page/CategoryPage';
 import { Layout } from './components/layout/Layout';
 import ProductPage from './components/product-page/ProductPage';
@@ -19,8 +20,8 @@ type AppState = {
 };
 
 class App extends Component<Props, AppState> {
-  constructor(text: Props) {
-    super(text);
+  constructor(props: Props) {
+    super(props);
     this.state = {
       category: {
         all: 'all',
@@ -50,6 +51,7 @@ class App extends Component<Props, AppState> {
             element={<CategoryPage category={this.state.category.tech} />}
           />
           <Route path="category/tech/:id" element={<ProductPage />} />
+          <Route path="cart" element={<CartPage />} />
         </Route>
       </Routes>
     );

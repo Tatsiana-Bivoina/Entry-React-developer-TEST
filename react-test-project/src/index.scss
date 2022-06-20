@@ -16,13 +16,16 @@ body {
 }
 
 .wrapper {
-  max-width: 1240px;
+  max-width: 1290px;
   height: 100%;
   margin: 0 auto;
 }
 
 .main {
-  padding-top: 46px;
   color: $text-color;
   font-family: $text-font;
+}
+
+.scroll-hidden {
+  overflow: hidden;
 }

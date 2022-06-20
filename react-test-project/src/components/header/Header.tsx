@@ -7,7 +7,9 @@ import { getCurrencyQuery } from './queries';
 import styled from 'styled-components';
 import './header.scss';
 
-const DropDownContainer = styled('div')``;
+const DropDownContainer = styled('div')`
+  position: relative;
+`;
 
 const DropDownHeader = styled('div')`
   position: relative;
@@ -31,7 +33,7 @@ const DropDownHeader = styled('div')`
   .select-arrow {
     position: absolute;
     right: 6px;
-    top: 10px;
+    top: 8px;
     width: 6px;
     height: 3px;
     background-image: url('../../../arrow-icon.png');
@@ -48,9 +50,10 @@ const DropDownHeader = styled('div')`
 `;
 
 const DropDownListContainer = styled('div')`
-  position: relative;
-  right: -60px;
-  top: 2px;
+  position: absolute;
+  right: -59px;
+  top: 31px;
+  z-index: 10;
 `;
 
 const DropDownList = styled('ul')`
@@ -112,11 +115,7 @@ export class Header extends Component<Props, HeaderState> {
     this.setState({ currency: data });
   }
 
-  changeCurrency(event: React.ChangeEvent<HTMLSelectElement>) {
-    this.props.changeCurrency(event.target.value);
-  }
-
-  toggling() {
+  toggling(): void {
     this.setState({ isOpen: !this.state.isOpen });
   }
 
@@ -128,6 +127,7 @@ export class Header extends Component<Props, HeaderState> {
 
   render() {
     const { selectedOption, isOpen, currency } = this.state;
+    const { toggleCartModal, isCartModalOpen } = this.props;
 
     return (
       <header className="header">
@@ -175,7 +175,13 @@ export class Header extends Component<Props, HeaderState> {
                 )}
               </DropDownContainer>
               <div className="cart-container">
-                <button className="cart" />
+                <button
+                  className="cart"
+                  onClick={() => {
+                    toggleCartModal(!isCartModalOpen);
+                    document.body.classList.toggle('scroll-hidden', !isCartModalOpen);
+                  }}
+                />
                 {this.props.cart.length > 0 && (
                   <span className="cart-product-count">{this.props.cart.length}</span>
                 )}
@@ -192,12 +198,15 @@ const mapStateToProps = (state: RootState) => {
   return {
     cart: state.cartReducer,
     currency: state.currencyReducer.currentCurrency,
+    isCartModalOpen: state.modalCartReducer.isCartModalOpen,
   };
 };
 
 const mapDispatchToProps = (dispatch: AppDispatch) => {
   return {
     changeCurrency: (currency: string) => dispatch({ type: 'CHANGE_CURRENCY', payload: currency }),
+    toggleCartModal: (isOpenModal: boolean) =>
+      dispatch({ type: 'TOGGLE_MODAL', payload: isOpenModal }),
   };
 };
 

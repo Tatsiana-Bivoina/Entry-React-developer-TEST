@@ -64,5 +64,13 @@ export interface activeAttributesType {
 }
 
 export interface CartDataType extends ProductDataType {
+  generatedId: string;
   activeAttributes: activeAttributesType;
+  amount: number;
+}
+
+export interface TotalDataCount {
+  totalPrice: number;
+  totalProductsCount: number;
+  tax: number;
 }

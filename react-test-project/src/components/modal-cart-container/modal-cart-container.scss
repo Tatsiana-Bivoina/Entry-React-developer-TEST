@@ -1,0 +1,23 @@
+@import '../../variables.scss';
+
+.cart-modal-section {
+  position: fixed;
+  background: rgba(57, 55, 72, 0.22);
+  width: 100vw;
+  height: 100vh;
+  z-index: 10;
+}
+
+.modal-container {
+  position: fixed;
+  right: 72px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 325px;
+  padding: 32px 16px;
+  gap: 32px;
+  background-color: $color-white;
+  box-sizing: border-box;
+}

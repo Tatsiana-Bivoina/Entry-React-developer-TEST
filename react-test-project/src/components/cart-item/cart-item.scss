@@ -1,0 +1,152 @@
+@import '../../variables.scss';
+
+.cart-item {
+  position: relative;
+  display: flex;
+  border-top: 1px solid $border;
+  border-bottom: 1px solid $border;
+  padding: 24px 26px 23px;
+  z-index: 5;
+
+  .product-brand {
+    margin-bottom: 15px;
+  }
+
+  .product-name {
+    margin-bottom: 0;
+  }
+
+  .product-current-price {
+    margin-top: 20px;
+    margin-bottom: 0;
+    line-height: 24px;
+  }
+
+  .attribute-type {
+    margin-top: 0;
+  }
+
+  .attribute-btn {
+    margin-right: 8px;
+  }
+}
+
+.cart-item-data,
+.cart-item-photo {
+  width: 50%;
+  min-height: 288px;
+}
+
+.attribute-container {
+  padding-top: 22px;
+}
+
+.cart-item-photo {
+  display: flex;
+  justify-content: flex-end;
+
+  .photo {
+    position: relative;
+    width: 200px;
+    height: 288px;
+  }
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+}
+
+.counter-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 288px;
+  margin-right: 23px;
+
+  button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 45px;
+    height: 45px;
+    border: 1px solid $text-color;
+    font-size: 32px;
+
+    &:hover {
+      cursor: pointer;
+    }
+
+    &:active {
+      transform: scale(0.9);
+    }
+  }
+
+  span {
+    font-weight: 500;
+    font-size: 24px;
+    line-height: 160%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+  }
+}
+
+.icon-minus {
+  height: .5em;
+  fill: $text-color;
+}
+
+.icon-delete {
+  position: absolute;
+  right: 0;
+  width: 1.5em;
+  height: 1.5em;
+  fill: $text-color;
+
+  &:hover {
+    cursor: pointer;
+  }
+
+  &:active {
+    transform: scale(0.9);
+  }
+}
+
+.photo-slider-buttons {
+  position: absolute;
+  right: 16px;
+  bottom: 16px;
+  display: flex;
+  justify-content: space-between;
+  width: 56px;
+  height: 24px;
+
+  button {
+    width: 24px;
+    height: 24px;
+    
+    background-color: rgba(0, 0, 0, 0.73);
+    background-repeat: no-repeat;
+    background-position: center;
+    transform: matrix(1, 0, 0, -1, 0, 0);
+
+    &:hover {
+      cursor: pointer;
+    }
+
+    &:active {
+      transform: scale(0.9);
+    }
+  }
+
+  .button-prev {
+    background-image: url('../../../public/arrow-prev.png');
+  }
+
+  .button-next {
+    background-image: url('../../../public/arrow-next.png');
+  }
+}

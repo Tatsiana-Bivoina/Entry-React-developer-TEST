@@ -11,6 +11,9 @@ import {
 } from '../../types/productType';
 import { getCurrentProductDataQuery } from './queries';
 import './product-page.scss';
+import ModalCartContainer from '../modal-cart-container/ModalCartContainer';
+import { chooseClassName } from '../../controllers/productController';
+import nextId from 'react-id-generator';
 
 type Props = Readonly<PropsFromRedux>;
 
@@ -97,30 +100,6 @@ export class ProductPage extends Component<Props, ProductPageState> {
     this.setState({ productCurrencyIndex: currencyElemIndex });
   }
 
-  chooseClassName(name: string, index: number): string {
-    if (name === 'Size') {
-      if (this.state.activeAttributes.activeSize === index.toString()) {
-        return 'attribute-btn active';
-      }
-    }
-    if (name === 'Capacity') {
-      if (this.state.activeAttributes.activeCapacity === index.toString()) {
-        return 'attribute-btn active';
-      }
-    }
-    if (name === 'With USB 3 ports') {
-      if (this.state.activeAttributes.activeWithUSBPorts === index.toString()) {
-        return 'attribute-btn active';
-      }
-    }
-    if (name === 'Touch ID in keyboard') {
-      if (this.state.activeAttributes.activeTouchId === index.toString()) {
-        return 'attribute-btn active';
-      }
-    }
-    return 'attribute-btn';
-  }
-
   setActiveAttributes(name: string, index: string) {
     if (name === 'Size') {
       this.setState({
@@ -159,107 +138,118 @@ export class ProductPage extends Component<Props, ProductPageState> {
   addProductToCart(): void {
     const finalProductData = {
       ...this.state.currentProductData,
+      generatedId: nextId(),
       activeAttributes: this.state.activeAttributes,
+      amount: 1,
     };
     this.props.addToCart(finalProductData);
   }
 
   render() {
     const { currentProductData } = this.state;
+    const { isCartModalOpen } = this.props;
     const regex = /(<([^>]+)>)/g;
 
     return (
-      <section className="product-page-section">
-        <div className="wrapper">
-          {currentProductData && (
-            <div className="product-page-container">
-              <div className="photo-container">
-                <div className="min-photo-container">
-                  {currentProductData.gallery.map((elem: string, index) => (
-                    <img
-                      className={
-                        this.state.activeMinPhoto === index.toString()
-                          ? 'min-photo active'
-                          : 'min-photo'
-                      }
-                      key={index}
-                      src={elem}
-                      alt=""
-                      onClick={() => {
-                        this.setState({ activeMinPhoto: index.toString() });
-                        this.setState({ maxPhotoSrc: elem });
-                      }}
-                    />
-                  ))}
+      <>
+        {isCartModalOpen && <ModalCartContainer />}
+        <section className="product-page-section">
+          <div className="wrapper">
+            {currentProductData && (
+              <div className="product-page-container">
+                <div className="photo-container">
+                  <div className="min-photo-container">
+                    {currentProductData.gallery.map((elem: string, index) => (
+                      <img
+                        className={
+                          this.state.activeMinPhoto === index.toString()
+                            ? 'min-photo active'
+                            : 'min-photo'
+                        }
+                        key={index}
+                        src={elem}
+                        alt=""
+                        onClick={() => {
+                          this.setState({ activeMinPhoto: index.toString() });
+                          this.setState({ maxPhotoSrc: elem });
+                        }}
+                      />
+                    ))}
+                  </div>
+                  <div className="max-photo-container">
+                    <img className="max-photo" src={this.state.maxPhotoSrc} alt="" />
+                  </div>
                 </div>
-                <div className="max-photo-container">
-                  <img className="max-photo" src={this.state.maxPhotoSrc} alt="" />
+                <div className="description-container">
+                  <h3 className="product-brand">{currentProductData.brand}</h3>
+                  <h4 className="product-name">{currentProductData.name}</h4>
+                  {currentProductData.attributes.map((el: AttributesType, index) => {
+                    return (
+                      <div key={index}>
+                        <h5 className="attribute-type">{el.name}:</h5>
+                        {el.name === 'Color' ? (
+                          <div className="attribute-color-container">
+                            {el.items.map((elem: ItemType, index) => (
+                              <div
+                                key={index}
+                                className={
+                                  this.state.activeAttributes.activeColor === index.toString()
+                                    ? 'attribute-btn-color active'
+                                    : 'attribute-btn-color'
+                                }
+                                style={{ backgroundColor: elem.value }}
+                                onClick={() => {
+                                  this.setState({
+                                    activeAttributes: {
+                                      ...this.state.activeAttributes,
+                                      activeColor: index.toString(),
+                                    },
+                                  });
+                                }}
+                              />
+                            ))}
+                          </div>
+                        ) : (
+                          <div className="attribute-btn-container">
+                            {el.items.map((elem: ItemType, index) => (
+                              <button
+                                className={chooseClassName(
+                                  el.name,
+                                  index,
+                                  this.state.activeAttributes
+                                )}
+                                key={index}
+                                onClick={() => this.setActiveAttributes(el.name, index.toString())}
+                              >
+                                {elem.value}
+                              </button>
+                            ))}
+                          </div>
+                        )}
+                      </div>
+                    );
+                  })}
+                  <h5 className="product-price-title">Price:</h5>
+                  <p className="product-current-price">
+                    {currentProductData.prices[this.state.productCurrencyIndex].currency.symbol}
+                    &nbsp;
+                    {currentProductData.prices[this.state.productCurrencyIndex].amount}
+                  </p>
+                  <button className="btn-green" onClick={() => this.addProductToCart()}>
+                    Add to cart
+                  </button>
+                  <p
+                    dangerouslySetInnerHTML={{
+                      __html: currentProductData.description.replace(regex, ''),
+                    }}
+                    className="product-description"
+                  />
                 </div>
               </div>
-              <div className="description-container">
-                <h3 className="product-brand">{currentProductData.brand}</h3>
-                <h4 className="product-name">{currentProductData.name}</h4>
-                {currentProductData.attributes.map((el: AttributesType, index) => {
-                  return (
-                    <div key={index}>
-                      <h5 className="attribute-type">{el.name}:</h5>
-                      {el.name === 'Color' ? (
-                        <div className="attribute-color-container">
-                          {el.items.map((elem: ItemType, index) => (
-                            <div
-                              key={index}
-                              className={
-                                this.state.activeAttributes.activeColor === index.toString()
-                                  ? 'attribute-btn-color active'
-                                  : 'attribute-btn-color'
-                              }
-                              style={{ backgroundColor: elem.value }}
-                              onClick={() => {
-                                this.setState({
-                                  activeAttributes: {
-                                    ...this.state.activeAttributes,
-                                    activeColor: index.toString(),
-                                  },
-                                });
-                              }}
-                            />
-                          ))}
-                        </div>
-                      ) : (
-                        <div className="attribute-btn-container">
-                          {el.items.map((elem: ItemType, index) => (
-                            <button
-                              className={this.chooseClassName(el.name, index)}
-                              key={index}
-                              onClick={() => this.setActiveAttributes(el.name, index.toString())}
-                            >
-                              {elem.value}
-                            </button>
-                          ))}
-                        </div>
-                      )}
-                    </div>
-                  );
-                })}
-                <h5 className="product-price-title">Price:</h5>
-                <p className="product-current-price">
-                  {currentProductData.prices[this.state.productCurrencyIndex].currency.symbol}&nbsp;
-                  {currentProductData.prices[this.state.productCurrencyIndex].amount}
-                </p>
-                <button className="btn-add-to-cart" onClick={() => this.addProductToCart()}>
-                  Add to cart
-                </button>
-                <p
-                  dangerouslySetInnerHTML={{
-                    __html: currentProductData.description.replace(regex, ''),
-                  }}
-                  className="product-description"
-                />
-              </div>
-            </div>
-          )}
-        </div>
-      </section>
+            )}
+          </div>
+        </section>
+      </>
     );
   }
 }
@@ -268,6 +258,7 @@ const mapStateToProps = (state: RootState) => {
   return {
     currentProductId: state.currentProductIdReducer,
     currentCurrency: state.currencyReducer.currentCurrency,
+    isCartModalOpen: state.modalCartReducer.isCartModalOpen,
   };
 };
 

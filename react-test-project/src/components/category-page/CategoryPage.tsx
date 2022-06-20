@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
-import { AppDispatch, client } from '../..';
+import { AppDispatch, client, RootState } from '../..';
 import ProductCardsContainer from '../product-cards-container/ProductCardsContainer';
 import { getProductsQuery } from './queries';
 import './category-page.scss';
 import { CategoryProductsMinResponse } from '../../types/productType';
 import { connect, ConnectedProps } from 'react-redux';
+import ModalCartContainer from '../modal-cart-container/ModalCartContainer';
 
 export interface CategoryPageProps extends PropsFromRedux {
   category: string;
@@ -34,17 +35,27 @@ export class CategoryPage extends Component<Props> {
 
   render() {
     const { category = 'All' } = this.props;
+    const { isCartModalOpen } = this.props;
 
     return (
-      <section className="category-page">
-        <div className="wrapper">
-          <h1 className="category-title">{category}</h1>
-          <ProductCardsContainer />
-        </div>
-      </section>
+      <>
+        {isCartModalOpen && <ModalCartContainer />}
+        <section className="category-page">
+          <div className="wrapper">
+            <h1 className="category-title">{category}</h1>
+            <ProductCardsContainer />
+          </div>
+        </section>
+      </>
     );
   }
 }
+
+const mapStateToProps = (state: RootState) => {
+  return {
+    isCartModalOpen: state.modalCartReducer.isCartModalOpen,
+  };
+};
 
 const mapDispatchToProps = (dispatch: AppDispatch) => {
   return {
@@ -53,7 +64,7 @@ const mapDispatchToProps = (dispatch: AppDispatch) => {
   };
 };
 
-const connector = connect(null, mapDispatchToProps);
+const connector = connect(mapStateToProps, mapDispatchToProps);
 
 type PropsFromRedux = ConnectedProps<typeof connector>;
 
