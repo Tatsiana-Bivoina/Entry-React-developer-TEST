@@ -22,7 +22,7 @@ export function totalDataCountReducer(state = initialState, action: ActionsType)
       const taxCount = Math.round(sumTotalPrice * 0.21 * 100) / 100;
       return {
         ...stateCopy,
-        totalPrice: Math.round((sumTotalPrice - taxCount) * 100) / 100,
+        totalPrice: sumTotalPrice,
         tax: taxCount,
       };
     case 'COUNT_TOTAL_PRODUCTS_COUNT':

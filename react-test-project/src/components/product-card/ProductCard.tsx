@@ -42,6 +42,7 @@ export class ProductCard extends Component<Props, ProductCardState> {
   }
 
   render() {
+    const { productCurrencyIndex } = this.state;
     const { cardData, getCurrentProductId } = this.props;
 
     return (
@@ -59,8 +60,8 @@ export class ProductCard extends Component<Props, ProductCardState> {
           {cardData.name}
         </h3>
         <p className={cardData.inStock ? 'product-price' : 'product-price overlay'}>
-          {cardData.prices[this.state.productCurrencyIndex].currency.symbol}&nbsp;
-          {cardData.prices[this.state.productCurrencyIndex].amount}
+          {cardData.prices[productCurrencyIndex].currency.symbol}&nbsp;
+          {cardData.prices[productCurrencyIndex].amount}
         </p>
         <Link
           to={`/category/${cardData.category}/${cardData.id}`}

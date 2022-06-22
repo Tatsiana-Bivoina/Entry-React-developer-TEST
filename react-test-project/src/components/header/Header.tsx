@@ -90,7 +90,6 @@ export type Props = Readonly<PropsFromRedux>;
 type HeaderState = {
   currency: CurrenciesDataType[];
   isOpen: boolean;
-  selectedOption: string;
 };
 
 export class Header extends Component<Props, HeaderState> {
@@ -99,7 +98,6 @@ export class Header extends Component<Props, HeaderState> {
     this.state = {
       currency: [],
       isOpen: false,
-      selectedOption: '',
     };
   }
 
@@ -121,13 +119,17 @@ export class Header extends Component<Props, HeaderState> {
 
   onOptionClicked(value: string) {
     this.props.changeCurrency(value);
-    this.setState({ selectedOption: value });
     this.setState({ isOpen: false });
   }
 
+  closeModal() {
+    this.props.toggleCartModal(false);
+    document.body.classList.toggle('scroll-hidden', false);
+  }
+
   render() {
-    const { selectedOption, isOpen, currency } = this.state;
-    const { toggleCartModal, isCartModalOpen } = this.props;
+    const { isOpen, currency } = this.state;
+    const { toggleCartModal, isCartModalOpen, currentCurrency, cart } = this.props;
 
     return (
       <header className="header">
@@ -137,18 +139,30 @@ export class Header extends Component<Props, HeaderState> {
               <NavLink
                 to="/category/all"
                 className={({ isActive }) => (isActive ? 'nav-item active' : 'nav-item')}
+                onClick={() => {
+                  this.closeModal();
+                  this.setState({ isOpen: false });
+                }}
               >
                 All
               </NavLink>
               <NavLink
                 to="/category/clothes"
                 className={({ isActive }) => (isActive ? 'nav-item active' : 'nav-item')}
+                onClick={() => {
+                  this.closeModal();
+                  this.setState({ isOpen: false });
+                }}
               >
                 Clothes
               </NavLink>
               <NavLink
                 to="/category/tech"
                 className={({ isActive }) => (isActive ? 'nav-item active' : 'nav-item')}
+                onClick={() => {
+                  this.closeModal();
+                  this.setState({ isOpen: false });
+                }}
               >
                 Tech
               </NavLink>
@@ -158,8 +172,14 @@ export class Header extends Component<Props, HeaderState> {
             </div>
             <div className="cart-currency-container">
               <DropDownContainer>
-                <DropDownHeader onClick={() => this.toggling()} className={isOpen ? 'active' : ''}>
-                  <span>{selectedOption || '$'}</span>
+                <DropDownHeader
+                  onClick={() => {
+                    this.toggling();
+                    this.closeModal();
+                  }}
+                  className={isOpen ? 'active' : ''}
+                >
+                  <span>{currentCurrency}</span>
                   <div className="select-arrow" />
                 </DropDownHeader>
                 {isOpen && (
@@ -180,11 +200,10 @@ export class Header extends Component<Props, HeaderState> {
                   onClick={() => {
                     toggleCartModal(!isCartModalOpen);
                     document.body.classList.toggle('scroll-hidden', !isCartModalOpen);
+                    this.setState({ isOpen: false });
                   }}
                 />
-                {this.props.cart.length > 0 && (
-                  <span className="cart-product-count">{this.props.cart.length}</span>
-                )}
+                {cart.length > 0 && <span className="cart-product-count">{cart.length}</span>}
               </div>
             </div>
           </div>
@@ -197,7 +216,7 @@ export class Header extends Component<Props, HeaderState> {
 const mapStateToProps = (state: RootState) => {
   return {
     cart: state.cartReducer,
-    currency: state.currencyReducer.currentCurrency,
+    currentCurrency: state.currencyReducer.currentCurrency,
     isCartModalOpen: state.modalCartReducer.isCartModalOpen,
   };
 };

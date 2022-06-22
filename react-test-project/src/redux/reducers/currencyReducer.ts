@@ -2,12 +2,13 @@ import { CurrencyActionType } from '../../types/actionsType';
 import { CurrencyType } from '../../types/productType';
 
 const initialState: CurrencyType = {
-  currentCurrency: '$',
+  currentCurrency: localStorage.getItem('currentCurrency') || '$',
 };
 
 export function currencyReducer(state = initialState, action: CurrencyActionType) {
   switch (action.type) {
     case 'CHANGE_CURRENCY':
+      localStorage.setItem('currentCurrency', action.payload);
       return Object.assign({}, state, {
         currentCurrency: action.payload,
       });

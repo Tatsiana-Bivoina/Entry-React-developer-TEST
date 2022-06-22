@@ -9,6 +9,7 @@ import './cart-item.scss';
 export interface CartItemProps extends PropsFromRedux {
   data: CartDataType;
   key: number;
+  pageName: string;
 }
 
 type Props = Readonly<CartItemProps>;
@@ -180,12 +181,12 @@ export class CartItem extends Component<Props, CartItemState> {
   }
 
   render() {
-    const { data, deleteItem, editItem } = this.props;
+    const { data, deleteItem, editItem, pageName } = this.props;
 
     return (
       <div className="cart-item">
         <div className="cart-item-data">
-          <h3 className="product-brand">{data.brand}</h3>
+          {pageName === 'cart-page' && <h3 className="product-brand">{data.brand}</h3>}
           <h4 className="product-name">{data.name}</h4>
           <p className="product-current-price">
             {data.prices[this.state.productCurrencyIndex].currency.symbol}
@@ -251,10 +252,12 @@ export class CartItem extends Component<Props, CartItemState> {
           </div>
           <div className="photo">
             <img src={data.gallery[this.state.currentPhotoIndex]} alt="" />
-            <div className="photo-slider-buttons">
-              <button className="button-prev" onClick={() => this.choosePrevPhoto()} />
-              <button className="button-next" onClick={() => this.chooseNextPhoto()} />
-            </div>
+            {pageName === 'cart-page' && (
+              <div className="photo-slider-buttons">
+                <button className="button-prev" onClick={() => this.choosePrevPhoto()} />
+                <button className="button-next" onClick={() => this.chooseNextPhoto()} />
+              </div>
+            )}
           </div>
         </div>
         <FaTrash className="icon-delete" onClick={() => deleteItem(data)} />

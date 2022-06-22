@@ -146,7 +146,7 @@ export class ProductPage extends Component<Props, ProductPageState> {
   }
 
   render() {
-    const { currentProductData } = this.state;
+    const { currentProductData, activeAttributes, productCurrencyIndex } = this.state;
     const { isCartModalOpen } = this.props;
     const regex = /(<([^>]+)>)/g;
 
@@ -193,7 +193,7 @@ export class ProductPage extends Component<Props, ProductPageState> {
                               <div
                                 key={index}
                                 className={
-                                  this.state.activeAttributes.activeColor === index.toString()
+                                  activeAttributes.activeColor === index.toString()
                                     ? 'attribute-btn-color active'
                                     : 'attribute-btn-color'
                                 }
@@ -201,7 +201,7 @@ export class ProductPage extends Component<Props, ProductPageState> {
                                 onClick={() => {
                                   this.setState({
                                     activeAttributes: {
-                                      ...this.state.activeAttributes,
+                                      ...activeAttributes,
                                       activeColor: index.toString(),
                                     },
                                   });
@@ -213,11 +213,7 @@ export class ProductPage extends Component<Props, ProductPageState> {
                           <div className="attribute-btn-container">
                             {el.items.map((elem: ItemType, index) => (
                               <button
-                                className={chooseClassName(
-                                  el.name,
-                                  index,
-                                  this.state.activeAttributes
-                                )}
+                                className={chooseClassName(el.name, index, activeAttributes)}
                                 key={index}
                                 onClick={() => this.setActiveAttributes(el.name, index.toString())}
                               >
@@ -231,9 +227,9 @@ export class ProductPage extends Component<Props, ProductPageState> {
                   })}
                   <h5 className="product-price-title">Price:</h5>
                   <p className="product-current-price">
-                    {currentProductData.prices[this.state.productCurrencyIndex].currency.symbol}
+                    {currentProductData.prices[productCurrencyIndex].currency.symbol}
                     &nbsp;
-                    {currentProductData.prices[this.state.productCurrencyIndex].amount}
+                    {currentProductData.prices[productCurrencyIndex].amount}
                   </p>
                   <button className="btn-green" onClick={() => this.addProductToCart()}>
                     Add to cart

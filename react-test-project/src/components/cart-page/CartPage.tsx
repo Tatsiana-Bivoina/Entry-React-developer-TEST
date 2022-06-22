@@ -4,8 +4,9 @@ import { Link } from 'react-router-dom';
 import { AppDispatch, RootState } from '../..';
 import { changeProductCurrencyIndex } from '../../controllers/productController';
 import { CartDataType } from '../../types/productType';
-import CartItem from '../cart-item/CartItem';
+import CartProductsContainer from '../cart-products-container/CartProductsContainer';
 import ModalCartContainer from '../modal-cart-container/ModalCartContainer';
+import OrderDataContainer from '../order-data-container/OrderDataContainer';
 import './cart-page.scss';
 
 type Props = Readonly<PropsFromRedux>;
@@ -14,6 +15,7 @@ type CartPageState = {
   productCurrencyIndex: number;
   showOrderMessage: boolean;
   isCartEmpty: boolean;
+  pageName: string;
 };
 
 export class CartPage extends Component<Props, CartPageState> {
@@ -23,6 +25,7 @@ export class CartPage extends Component<Props, CartPageState> {
       productCurrencyIndex: 0,
       showOrderMessage: false,
       isCartEmpty: true,
+      pageName: 'cart-page',
     };
   }
 
@@ -50,6 +53,12 @@ export class CartPage extends Component<Props, CartPageState> {
       });
     }
 
+    if (this.props.productsInCart.length !== prevProps.productsInCart.length) {
+      if (this.props.productsInCart.length === 0) {
+        this.setState({ isCartEmpty: true });
+      }
+    }
+
     if (this.state.productCurrencyIndex !== prevState.productCurrencyIndex) {
       this.props.countTotalPrice(this.props.productsInCart, this.state.productCurrencyIndex);
     }
@@ -62,7 +71,8 @@ export class CartPage extends Component<Props, CartPageState> {
   }
 
   render() {
-    const { isCartModalOpen, productsInCart, currentCurrency, totalDataCount } = this.props;
+    const { showOrderMessage, isCartEmpty, pageName } = this.state;
+    const { isCartModalOpen, productsInCart } = this.props;
 
     return (
       <>
@@ -71,7 +81,7 @@ export class CartPage extends Component<Props, CartPageState> {
           <div className="wrapper">
             <h3 className="cart-title">Cart</h3>
             <div className="cart-message-container">
-              {this.state.showOrderMessage && (
+              {showOrderMessage && (
                 <>
                   <p className="cart-message">Your order is accepted. Thank you!</p>
                   <Link to={`/category/all`} className="btn-green">
@@ -79,7 +89,7 @@ export class CartPage extends Component<Props, CartPageState> {
                   </Link>
                 </>
               )}
-              {this.state.isCartEmpty && (
+              {isCartEmpty && (
                 <>
                   <p className="cart-message">Your cart is empty.</p>
                   <Link to={`/category/all`} className="btn-green">
@@ -88,31 +98,10 @@ export class CartPage extends Component<Props, CartPageState> {
                 </>
               )}
             </div>
-            <div cart-items-container>
-              {productsInCart.map((el: CartDataType, index) => (
-                <CartItem data={el} key={index} />
-              ))}
-            </div>
+            <CartProductsContainer pageName={pageName} />
             {productsInCart.length !== 0 && (
               <>
-                <div className="order-data-container">
-                  <div className="order-text-container">
-                    <h3>Tax 21%:</h3>
-                    <h3>Quantity:</h3>
-                    <h3>Total:</h3>
-                  </div>
-                  <div className="order-price-container">
-                    <h3>
-                      {currentCurrency.currentCurrency}
-                      {totalDataCount.tax}
-                    </h3>
-                    <h3>{totalDataCount.totalProductsCount}</h3>
-                    <h3>
-                      {currentCurrency.currentCurrency}
-                      {totalDataCount.totalPrice}
-                    </h3>
-                  </div>
-                </div>
+                <OrderDataContainer pageName={pageName} />
                 <button className="btn-green" onClick={() => this.resetData()}>
                   Order
                 </button>
@@ -130,7 +119,6 @@ const mapStateToProps = (state: RootState) => {
     isCartModalOpen: state.modalCartReducer.isCartModalOpen,
     productsInCart: state.cartReducer,
     currentCurrency: state.currencyReducer,
-    totalDataCount: state.totalDataCountReducer,
   };
 };
 

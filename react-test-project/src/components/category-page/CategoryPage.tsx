@@ -2,10 +2,10 @@ import React, { Component } from 'react';
 import { AppDispatch, client, RootState } from '../..';
 import ProductCardsContainer from '../product-cards-container/ProductCardsContainer';
 import { getProductsQuery } from './queries';
-import './category-page.scss';
 import { CategoryProductsMinResponse } from '../../types/productType';
 import { connect, ConnectedProps } from 'react-redux';
 import ModalCartContainer from '../modal-cart-container/ModalCartContainer';
+import './category-page.scss';
 
 export interface CategoryPageProps extends PropsFromRedux {
   category: string;

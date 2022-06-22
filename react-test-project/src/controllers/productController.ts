@@ -1,4 +1,9 @@
-import { activeAttributesType, PriceType, ProductDataType } from '../types/productType';
+import {
+  activeAttributesType,
+  CartDataType,
+  PriceType,
+  ProductDataType,
+} from '../types/productType';
 
 export function chooseClassName(name: string, index: number, data: activeAttributesType): string {
   if (name === 'Size') {
@@ -27,3 +32,11 @@ export function chooseClassName(name: string, index: number, data: activeAttribu
 export function changeProductCurrencyIndex(data: ProductDataType, currentCurrancy: string): number {
   return data.prices.findIndex((elem: PriceType) => elem.currency.symbol === currentCurrancy);
 }
+
+export const getLocalStorageCartData = (): CartDataType[] | null => {
+  const cartData: string | null = localStorage.getItem('productsInCart');
+  if (cartData == null) {
+    return cartData;
+  }
+  return JSON.parse(cartData);
+};
