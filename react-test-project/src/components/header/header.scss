@@ -95,3 +95,33 @@ button {
   color: $color-white;
   z-index: 5;
 }
+
+@media all and (max-width: 600px) {
+  .page-navigation {
+    width: 170px;
+    height: 40px;
+  }
+
+  .cart-currency-container {
+    width: 100px;
+    height: 40px;
+  }
+
+  .drop-down-container {
+    width: 100%;
+  }
+
+  .logo-container {
+    left: 0;
+
+    img {
+      width: 35px;
+      height: 35px;
+    }
+  }
+
+  .nav-item {
+    font-size: 14px;
+  }
+
+}

@@ -171,7 +171,7 @@ export class Header extends Component<Props, HeaderState> {
               <img src="../../a-logo.png" alt="logo" />
             </div>
             <div className="cart-currency-container">
-              <DropDownContainer>
+              <DropDownContainer className="drop-down-container">
                 <DropDownHeader
                   onClick={() => {
                     this.toggling();

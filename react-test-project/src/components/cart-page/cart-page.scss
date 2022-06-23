@@ -76,3 +76,24 @@
   font-size: 20px;
   line-height: 40px;
 }
+
+@media all and (max-width: 600px) {
+  .cart-item {
+    flex-direction: column-reverse;
+  }
+
+  .cart-item-data,
+  .cart-item-photo {
+    width: 100%;
+  }
+
+  .cart-item-photo {
+    justify-content: space-evenly;
+    margin-bottom: 30px;
+  }
+
+  .icon-delete {
+    top: 15px;
+    right: 15px;
+  }
+}

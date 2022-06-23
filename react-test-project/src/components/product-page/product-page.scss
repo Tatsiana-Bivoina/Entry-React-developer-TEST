@@ -69,7 +69,7 @@
 }
 
 .attribute-btn {
-  width: 63px;
+  min-width: 63px;
   height: 45px;
   border: 1px solid $text-color;
   margin-right: 12px;
@@ -136,4 +136,39 @@
   font-size: 16px;
   line-height: 159.96%;
   margin-top: 38px;
+}
+
+@media all and (max-width: 1160px) {
+  .product-page-container {
+    flex-direction: column;
+    padding: 0 15px;
+    box-sizing: border-box;
+  }
+
+  .photo-container {
+    justify-content: space-around;
+    margin-bottom: 15px;
+  }
+}
+
+@media all and (max-width: 878px) {
+  .photo-container {
+    flex-direction: column;
+  }
+
+  .min-photo-container {
+    flex-direction: row;
+    justify-content: space-evenly;
+    margin-right: 0;
+  }
+
+  .max-photo-container {
+    display: flex;
+    justify-content: center;
+    margin: 0;
+  }
+
+  .max-photo {
+    width: 80%;
+  }
 }
