@@ -54,7 +54,7 @@ export class CartPage extends Component<Props, CartPageState> {
     }
 
     if (this.props.productsInCart.length !== prevProps.productsInCart.length) {
-      if (this.props.productsInCart.length === 0) {
+      if (this.props.productsInCart.length === 0 && this.state.showOrderMessage === false) {
         this.setState({ isCartEmpty: true });
       }
     }
@@ -65,6 +65,7 @@ export class CartPage extends Component<Props, CartPageState> {
   }
 
   resetData() {
+    this.setState({ isCartEmpty: false });
     this.setState({ showOrderMessage: true });
     this.props.resetTotalDataCount();
     this.props.clearCart();
