@@ -1,4 +1,4 @@
-import { CartDataType, CategoryProductsMinResponse } from './productType';
+import { CartDataType, CategoryProductsMinResponse, DefaultPricesType } from './productType';
 
 export type CategoryProductsActionType = {
   type: string;
@@ -31,6 +31,11 @@ export type TotalDataCountActionType = {
     data: CartDataType[];
     currencyIndex: number;
   };
+};
+
+export type DefaultPriceActionType = {
+  type: string;
+  payload: DefaultPricesType;
 };
 
 export type ResetTotalDataCountActionType = {

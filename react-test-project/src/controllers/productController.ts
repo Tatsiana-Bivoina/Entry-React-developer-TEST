@@ -1,6 +1,7 @@
 import {
   activeAttributesType,
   CartDataType,
+  DefaultPricesType,
   PriceType,
   ProductDataType,
 } from '../types/productType';
@@ -39,4 +40,12 @@ export const getLocalStorageCartData = (): CartDataType[] | null => {
     return cartData;
   }
   return JSON.parse(cartData);
+};
+
+export const getLocalStorageDefaultPrices = (): DefaultPricesType[] | null => {
+  const defaultPrices: string | null = localStorage.getItem('defaultPrices');
+  if (defaultPrices == null) {
+    return defaultPrices;
+  }
+  return JSON.parse(defaultPrices);
 };

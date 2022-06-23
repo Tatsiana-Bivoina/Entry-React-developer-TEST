@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { AppDispatch, client, RootState } from '../..';
 import ProductCardsContainer from '../product-cards-container/ProductCardsContainer';
 import { getProductsQuery } from './queries';
-import { CategoryProductsMinResponse } from '../../types/productType';
+import { CategoryProductsMinResponse, DefaultPricesType } from '../../types/productType';
 import { connect, ConnectedProps } from 'react-redux';
 import ModalCartContainer from '../modal-cart-container/ModalCartContainer';
 import './category-page.scss';
@@ -23,6 +23,9 @@ export class CategoryPage extends Component<Props> {
 
   async componentDidMount() {
     const data = await this.getData();
+    data.map((el: CategoryProductsMinResponse) => {
+      this.props.addDefaultPrices({ id: el.id, prices: [...el.prices] });
+    });
     this.props.getProductsData(data);
   }
 
@@ -61,6 +64,8 @@ const mapDispatchToProps = (dispatch: AppDispatch) => {
   return {
     getProductsData: (data: CategoryProductsMinResponse[]) =>
       dispatch({ type: 'GET_PRODUCTS_DATA', payload: data }),
+    addDefaultPrices: (item: DefaultPricesType) =>
+      dispatch({ type: 'ADD_DEFAULT_PRICES', payload: item }),
   };
 };
 

@@ -2,7 +2,13 @@ import React, { Component } from 'react';
 import { connect, ConnectedProps } from 'react-redux';
 import { AppDispatch, RootState } from '../..';
 import { changeProductCurrencyIndex, chooseClassName } from '../../controllers/productController';
-import { AttributesType, CartDataType, ItemType, PriceType } from '../../types/productType';
+import {
+  AttributesType,
+  CartDataType,
+  DefaultPricesType,
+  ItemType,
+  PriceType,
+} from '../../types/productType';
 import { FaTrash, FaMinus } from 'react-icons/fa';
 import './cart-item.scss';
 
@@ -17,7 +23,7 @@ type Props = Readonly<CartItemProps>;
 type CartItemState = {
   productCurrencyIndex: number;
   currentPhotoIndex: number;
-  startProductPrices: PriceType[];
+  startProductPrices: DefaultPricesType;
 };
 
 export class CartItem extends Component<Props, CartItemState> {
@@ -26,13 +32,19 @@ export class CartItem extends Component<Props, CartItemState> {
     this.state = {
       productCurrencyIndex: 0,
       currentPhotoIndex: 0,
-      startProductPrices: this.props.data.prices,
+      startProductPrices: {
+        id: '',
+        prices: [],
+      },
     };
   }
 
   componentDidMount() {
     this.setState({
       productCurrencyIndex: changeProductCurrencyIndex(this.props.data, this.props.currentCurrency),
+    });
+    this.setState({
+      startProductPrices: Object.assign(this.state.startProductPrices, this.findDefaultPrices()),
     });
   }
 
@@ -72,7 +84,7 @@ export class CartItem extends Component<Props, CartItemState> {
                 ...el,
                 amount:
                   Math.round(
-                    this.state.startProductPrices[this.state.productCurrencyIndex].amount *
+                    this.state.startProductPrices.prices[this.state.productCurrencyIndex].amount *
                       this.props.data.amount *
                       100
                   ) / 100,
@@ -81,6 +93,13 @@ export class CartItem extends Component<Props, CartItemState> {
         }),
       });
     }
+  }
+
+  findDefaultPrices(): DefaultPricesType {
+    const index = this.props.defaultPrices.findIndex(
+      (el: DefaultPricesType) => el.id === this.props.data.id
+    );
+    return this.props.defaultPrices[index];
   }
 
   chooseNextPhoto() {
@@ -106,7 +125,7 @@ export class CartItem extends Component<Props, CartItemState> {
               ...el,
               amount:
                 Math.round(
-                  this.state.startProductPrices[this.state.productCurrencyIndex].amount *
+                  this.state.startProductPrices.prices[this.state.productCurrencyIndex].amount *
                     (currentProductData.amount + 1) *
                     100
                 ) / 100,
@@ -129,7 +148,7 @@ export class CartItem extends Component<Props, CartItemState> {
                 ...el,
                 amount:
                   Math.round(
-                    this.state.startProductPrices[this.state.productCurrencyIndex].amount *
+                    this.state.startProductPrices.prices[this.state.productCurrencyIndex].amount *
                       (currentProductData.amount - 1) *
                       100
                   ) / 100,
@@ -270,6 +289,7 @@ const mapStateToProps = (state: RootState) => {
   return {
     currentCurrency: state.currencyReducer.currentCurrency,
     productsInCart: state.cartReducer,
+    defaultPrices: state.defaultPricesReducer,
   };
 };
 
