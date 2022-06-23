@@ -28,10 +28,13 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "lint": "eslint . --ext .ts --ext .tsx"
   },
+  "homepage": "https://tatsiana-bivoina.github.io/Entry-React-developer-TEST/",
   "eslintConfig": {
     "extends": [
       "react-app",
