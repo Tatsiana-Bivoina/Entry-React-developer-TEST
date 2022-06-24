@@ -6,6 +6,7 @@ import { CurrenciesDataType } from '../../types/productType';
 import { getCurrencyQuery } from './queries';
 import styled from 'styled-components';
 import './header.scss';
+// import logoIcon from '../../a-logo.png';
 
 const DropDownContainer = styled('div')`
   position: relative;
@@ -36,7 +37,7 @@ const DropDownHeader = styled('div')`
     top: 8px;
     width: 6px;
     height: 3px;
-    background-image: url('../../../arrow-icon.png');
+    background-image: url('Entry-React-developer-TEST/icons/arrow-icon.png');
     background-position: center;
     background-size: cover;
     background-repeat: no-repeat;
@@ -168,7 +169,7 @@ export class Header extends Component<Props, HeaderState> {
               </NavLink>
             </div>
             <div className="logo-container">
-              <img src="../../a-logo.png" alt="logo" />
+              <img src="Entry-React-developer-TEST/icons/a-logo.png" alt="logo" />
             </div>
             <div className="cart-currency-container">
               <DropDownContainer className="drop-down-container">
