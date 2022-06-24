@@ -37,7 +37,7 @@ const DropDownHeader = styled('div')`
     top: 8px;
     width: 6px;
     height: 3px;
-    background-image: url('Entry-React-developer-TEST/icons/arrow-icon.png');
+    background-image: url('icons/arrow-icon.png');
     background-position: center;
     background-size: cover;
     background-repeat: no-repeat;
@@ -169,7 +169,7 @@ export class Header extends Component<Props, HeaderState> {
               </NavLink>
             </div>
             <div className="logo-container">
-              <img src="Entry-React-developer-TEST/icons/a-logo.png" alt="logo" />
+              <img src="icons/a-logo.png" alt="logo" />
             </div>
             <div className="cart-currency-container">
               <DropDownContainer className="drop-down-container">
