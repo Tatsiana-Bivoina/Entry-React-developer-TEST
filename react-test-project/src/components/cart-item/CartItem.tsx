@@ -9,7 +9,7 @@ import {
   ItemType,
   PriceType,
 } from '../../types/productType';
-import { FaTrash, FaMinus } from 'react-icons/fa';
+import { FaMinus } from 'react-icons/fa';
 import './cart-item.scss';
 import ProductPhotoCarousel from '../product-photo-carousel/ProductPhotoCarousel';
 
@@ -144,6 +144,8 @@ export class CartItem extends Component<Props, CartItemState> {
         }),
       };
       this.props.editItem(changedData);
+    } else {
+      this.props.deleteItem(this.props.data);
     }
   }
 
@@ -187,7 +189,7 @@ export class CartItem extends Component<Props, CartItemState> {
   }
 
   render() {
-    const { data, deleteItem, editItem, pageName } = this.props;
+    const { data, editItem, pageName } = this.props;
 
     return (
       <div className="cart-item">
@@ -264,7 +266,6 @@ export class CartItem extends Component<Props, CartItemState> {
             ))}
           </ProductPhotoCarousel>
         </div>
-        <FaTrash className="icon-delete" onClick={() => deleteItem(data)} />
       </div>
     );
   }

@@ -87,19 +87,3 @@
   height: .5em;
   fill: $text-color;
 }
-
-.icon-delete {
-  position: absolute;
-  right: 0;
-  width: 1.5em;
-  height: 1.5em;
-  fill: $text-color;
-
-  &:hover {
-    cursor: pointer;
-  }
-
-  &:active {
-    transform: scale(0.9);
-  }
-}
