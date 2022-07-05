@@ -11,6 +11,7 @@ import {
 } from '../../types/productType';
 import { FaTrash, FaMinus } from 'react-icons/fa';
 import './cart-item.scss';
+import ProductPhotoCarousel from '../product-photo-carousel/ProductPhotoCarousel';
 
 export interface CartItemProps extends PropsFromRedux {
   data: CartDataType;
@@ -22,7 +23,6 @@ type Props = Readonly<CartItemProps>;
 
 type CartItemState = {
   productCurrencyIndex: number;
-  currentPhotoIndex: number;
   startProductPrices: DefaultPricesType;
 };
 
@@ -31,7 +31,6 @@ export class CartItem extends Component<Props, CartItemState> {
     super(props);
     this.state = {
       productCurrencyIndex: 0,
-      currentPhotoIndex: 0,
       startProductPrices: {
         id: '',
         prices: [],
@@ -100,18 +99,6 @@ export class CartItem extends Component<Props, CartItemState> {
       (el: DefaultPricesType) => el.id === this.props.data.id
     );
     return this.props.defaultPrices[index];
-  }
-
-  chooseNextPhoto() {
-    if (this.state.currentPhotoIndex < this.props.data.gallery.length - 1) {
-      this.setState({ currentPhotoIndex: this.state.currentPhotoIndex + 1 });
-    }
-  }
-
-  choosePrevPhoto() {
-    if (this.state.currentPhotoIndex > 0) {
-      this.setState({ currentPhotoIndex: this.state.currentPhotoIndex - 1 });
-    }
   }
 
   incrementAmount() {
@@ -269,15 +256,13 @@ export class CartItem extends Component<Props, CartItemState> {
               <FaMinus className="icon-minus" />
             </button>
           </div>
-          <div className="photo">
-            <img src={data.gallery[this.state.currentPhotoIndex]} alt="" />
-            {pageName === 'cart-page' && (
-              <div className="photo-slider-buttons">
-                <button className="button-prev" onClick={() => this.choosePrevPhoto()} />
-                <button className="button-next" onClick={() => this.chooseNextPhoto()} />
+          <ProductPhotoCarousel galleryLength={data.gallery.length} pageName={pageName}>
+            {data.gallery.map((elem: string, index) => (
+              <div className="image-container" key={index}>
+                <img src={elem} alt="" />
               </div>
-            )}
-          </div>
+            ))}
+          </ProductPhotoCarousel>
         </div>
         <FaTrash className="icon-delete" onClick={() => deleteItem(data)} />
       </div>

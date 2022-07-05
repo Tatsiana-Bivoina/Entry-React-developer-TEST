@@ -78,7 +78,7 @@
 }
 
 @media all and (max-width: 600px) {
-  .cart-item {
+  .cart-item:not(.cart-items-container.modal .cart-item) {
     flex-direction: column-reverse;
   }
 

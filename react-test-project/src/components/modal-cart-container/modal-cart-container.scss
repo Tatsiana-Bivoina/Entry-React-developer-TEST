@@ -131,7 +131,7 @@
   }
 
   .counter-container,
-  .photo {
+  .carousel-window {
     height: 190px;
   }
 
@@ -143,8 +143,13 @@
     }
   }
 
-  .photo {
+  .carousel-window {
     width: 121px;
+  }
+
+  .image-container {
+    min-width: 121px;
+    max-width: 121px;
   }
 
   .btn-plus,
