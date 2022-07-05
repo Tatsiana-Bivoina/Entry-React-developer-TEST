@@ -63,9 +63,7 @@ export class OrderDataContainer extends Component<Props, OrderDataContainerState
           )}
           <h3>
             {currentCurrency.currentCurrency}
-            {pageName === 'cart-page'
-              ? Math.round((totalDataCount.totalPrice - totalDataCount.tax) * 100) / 100
-              : totalDataCount.totalPrice}
+            {totalDataCount.totalPrice}
           </h3>
         </div>
       </div>
