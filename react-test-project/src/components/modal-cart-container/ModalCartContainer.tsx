@@ -25,7 +25,13 @@ export class ModalCartContainer extends Component<Props, ModalCartContainerState
     const { productsInCart, isCartModalOpen } = this.props;
 
     return (
-      <section className="cart-modal-section" onClick={() => isCartModalOpen(false)}>
+      <section
+        className="cart-modal-section"
+        onClick={() => {
+          isCartModalOpen(false);
+          document.body.classList.toggle('scroll-hidden', !isCartModalOpen);
+        }}
+      >
         <div className="wrapper">
           <div className="modal-container" onClick={(event) => event.stopPropagation()}>
             <h4 className="modal-container-title">
