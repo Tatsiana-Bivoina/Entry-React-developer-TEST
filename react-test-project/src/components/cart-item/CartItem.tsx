@@ -149,47 +149,8 @@ export class CartItem extends Component<Props, CartItemState> {
     }
   }
 
-  setActiveAttributes(name: string, index: string) {
-    if (name === 'Size') {
-      this.props.editItem({
-        ...this.props.data,
-        activeAttributes: {
-          ...this.props.data.activeAttributes,
-          activeSize: index.toString(),
-        },
-      });
-    }
-    if (name === 'Capacity') {
-      this.props.editItem({
-        ...this.props.data,
-        activeAttributes: {
-          ...this.props.data.activeAttributes,
-          activeCapacity: index.toString(),
-        },
-      });
-    }
-    if (name === 'With USB 3 ports') {
-      this.props.editItem({
-        ...this.props.data,
-        activeAttributes: {
-          ...this.props.data.activeAttributes,
-          activeWithUSBPorts: index.toString(),
-        },
-      });
-    }
-    if (name === 'Touch ID in keyboard') {
-      this.props.editItem({
-        ...this.props.data,
-        activeAttributes: {
-          ...this.props.data.activeAttributes,
-          activeTouchId: index.toString(),
-        },
-      });
-    }
-  }
-
   render() {
-    const { data, editItem, pageName } = this.props;
+    const { data, pageName } = this.props;
 
     return (
       <div className="cart-item">
@@ -215,15 +176,6 @@ export class CartItem extends Component<Props, CartItemState> {
                             : 'attribute-btn-color'
                         }
                         style={{ backgroundColor: elem.value }}
-                        onClick={() => {
-                          editItem({
-                            ...data,
-                            activeAttributes: {
-                              ...data.activeAttributes,
-                              activeColor: index.toString(),
-                            },
-                          });
-                        }}
                       />
                     ))}
                   </div>
@@ -231,13 +183,13 @@ export class CartItem extends Component<Props, CartItemState> {
                   <div className="attribute-btn-container">
                     {el.items.map((elem: ItemType, index) => (
                       <button
+                        disabled
                         className={chooseClassName(
                           el.name,
                           index,
                           this.props.data.activeAttributes
                         )}
                         key={index}
-                        onClick={() => this.setActiveAttributes(el.name, index.toString())}
                       >
                         {elem.value}
                       </button>
