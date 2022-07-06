@@ -57,6 +57,7 @@ export class ProductCard extends Component<Props, ProductCardState> {
           )}
         </div>
         <h3 className={cardData.inStock ? 'product-title' : 'product-title overlay'}>
+          {cardData.brand}&nbsp;
           {cardData.name}
         </h3>
         <p className={cardData.inStock ? 'product-price' : 'product-price overlay'}>

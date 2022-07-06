@@ -28,6 +28,7 @@ export interface CategoryProductsMinResponse {
   gallery: string[];
   prices: PriceType[];
   category: string;
+  brand: string;
 }
 
 export interface ProductDataType {

@@ -17,6 +17,7 @@ export const getProductsQuery = (title: string) => gql`
           amount
         }
         category
+        brand
       }
     }
   }
