@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect, ConnectedProps } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, Navigate } from 'react-router-dom';
 import { AppDispatch, RootState } from '../..';
 import { CategoryProductsMinResponse, PriceType } from '../../types/productType';
 import './product-card.scss';
@@ -14,6 +14,7 @@ export type Props = Readonly<CardProps>;
 
 type ProductCardState = {
   productCurrencyIndex: number;
+  isClicked: boolean;
 };
 
 export class ProductCard extends Component<Props, ProductCardState> {
@@ -21,6 +22,7 @@ export class ProductCard extends Component<Props, ProductCardState> {
     super(props);
     this.state = {
       productCurrencyIndex: 0,
+      isClicked: false,
     };
   }
 
@@ -46,32 +48,39 @@ export class ProductCard extends Component<Props, ProductCardState> {
     const { cardData, getCurrentProductId } = this.props;
 
     return (
-      <div className={cardData.inStock ? 'card' : 'card overlay'}>
-        <div className="img-container">
-          <img src={cardData.gallery[0]} alt="product" />
-          {!cardData.inStock && (
-            <>
-              <div className="product-overlay" />
-              <h4 className="overlay-title">OUT OF STOCK</h4>
-            </>
-          )}
-        </div>
-        <h3 className={cardData.inStock ? 'product-title' : 'product-title overlay'}>
-          {cardData.brand}&nbsp;
-          {cardData.name}
-        </h3>
-        <p className={cardData.inStock ? 'product-price' : 'product-price overlay'}>
-          {cardData.prices[productCurrencyIndex].currency.symbol}&nbsp;
-          {cardData.prices[productCurrencyIndex].amount}
-        </p>
-        <Link
-          to={`/category/${cardData.category}/${cardData.id}`}
-          className="cart-link"
-          onClick={() => getCurrentProductId(cardData.id)}
+      <>
+        {this.state.isClicked && (
+          <Navigate to={`/category/${this.props.cardData.category}/${this.props.cardData.id}`} />
+        )}
+        <div
+          className={cardData.inStock ? 'card' : 'card overlay'}
+          onClick={() => {
+            getCurrentProductId(cardData.id);
+            this.setState({ isClicked: true });
+          }}
         >
-          <div className="cart-link-container" />
-        </Link>
-      </div>
+          <div className="img-container">
+            <img src={cardData.gallery[0]} alt="product" />
+            {!cardData.inStock && (
+              <>
+                <div className="product-overlay" />
+                <h4 className="overlay-title">OUT OF STOCK</h4>
+              </>
+            )}
+          </div>
+          <h3 className={cardData.inStock ? 'product-title' : 'product-title overlay'}>
+            {cardData.brand}&nbsp;
+            {cardData.name}
+          </h3>
+          <p className={cardData.inStock ? 'product-price' : 'product-price overlay'}>
+            {cardData.prices[productCurrencyIndex].currency.symbol}&nbsp;
+            {cardData.prices[productCurrencyIndex].amount}
+          </p>
+          <Link to={`/category/${cardData.category}/${cardData.id}`} className="cart-link">
+            <div className="cart-link-container" />
+          </Link>
+        </div>
+      </>
     );
   }
 }

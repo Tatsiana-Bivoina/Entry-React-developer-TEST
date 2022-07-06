@@ -6,6 +6,7 @@ export const getCurrentProductDataQuery = (id: string) => gql`
       id
       category
       name
+      inStock
       gallery
       description
       attributes {

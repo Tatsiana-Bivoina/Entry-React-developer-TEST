@@ -14,6 +14,7 @@ import './product-page.scss';
 import ModalCartContainer from '../modal-cart-container/ModalCartContainer';
 import { chooseClassName } from '../../controllers/productController';
 import nextId from 'react-id-generator';
+import { FaCheck, FaClock } from 'react-icons/fa';
 
 type Props = Readonly<PropsFromRedux>;
 
@@ -23,6 +24,7 @@ type ProductPageState = {
   activeMinPhoto: string;
   maxPhotoSrc: string;
   activeAttributes: activeAttributesType;
+  buttonText: string;
 };
 
 const emptyCurrentProductData: ProductDataType = {
@@ -43,6 +45,7 @@ const emptyCurrentProductData: ProductDataType = {
       ],
     },
   ],
+  inStock: true,
   brand: '',
   prices: [
     {
@@ -70,6 +73,7 @@ export class ProductPage extends Component<Props, ProductPageState> {
         activeWithUSBPorts: '0',
         activeTouchId: '0',
       },
+      buttonText: 'Leave a request',
     };
   }
 
@@ -183,6 +187,9 @@ export class ProductPage extends Component<Props, ProductPageState> {
                 <div className="description-container">
                   <h3 className="product-brand">{currentProductData.brand}</h3>
                   <h4 className="product-name">{currentProductData.name}</h4>
+                  {!currentProductData.inStock && (
+                    <h4 className="product-out-of-stock">Out of stock</h4>
+                  )}
                   {currentProductData.attributes.map((el: AttributesType, index) => {
                     return (
                       <div key={index}>
@@ -225,15 +232,30 @@ export class ProductPage extends Component<Props, ProductPageState> {
                       </div>
                     );
                   })}
-                  <h5 className="product-price-title">Price:</h5>
+                  <h5 className="product-price-title">
+                    {currentProductData.inStock ? 'Price:' : 'Preliminary price:'}
+                  </h5>
                   <p className="product-current-price">
                     {currentProductData.prices[productCurrencyIndex].currency.symbol}
                     &nbsp;
                     {currentProductData.prices[productCurrencyIndex].amount}
                   </p>
-                  <button className="btn-green" onClick={() => this.addProductToCart()}>
-                    Add to cart
-                  </button>
+                  {currentProductData.inStock && (
+                    <button className="btn-green" onClick={() => this.addProductToCart()}>
+                      Add to cart
+                    </button>
+                  )}
+                  {!currentProductData.inStock && (
+                    <button
+                      className="btn-green"
+                      onClick={() => this.setState({ buttonText: 'Request accepted' })}
+                    >
+                      {this.state.buttonText === 'Request accepted' && <FaCheck />}
+                      {this.state.buttonText === 'Leave a request' && <FaClock />}
+                      &nbsp; &nbsp;
+                      {this.state.buttonText}
+                    </button>
+                  )}
                   <p
                     dangerouslySetInnerHTML={{
                       __html: currentProductData.description.replace(regex, ''),

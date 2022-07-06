@@ -35,6 +35,7 @@ export interface ProductDataType {
   id: string;
   category: string;
   name: string;
+  inStock: boolean;
   gallery: string[];
   description: string;
   attributes: AttributesType[];
