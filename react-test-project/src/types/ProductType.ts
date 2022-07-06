@@ -70,9 +70,9 @@ export interface CartDataType extends ProductDataType {
 }
 
 export interface TotalDataCount {
-  totalPrice: number;
+  totalPrice: string;
   totalProductsCount: number;
-  tax: number;
+  tax: string;
 }
 
 export interface DefaultPricesType {

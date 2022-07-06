@@ -2,9 +2,9 @@ import { ResetTotalDataCountActionType, TotalDataCountActionType } from '../../t
 import { TotalDataCount } from '../../types/productType';
 
 const initialState: TotalDataCount = {
-  totalPrice: 0,
+  totalPrice: '0',
   totalProductsCount: 0,
-  tax: 0,
+  tax: '0',
 };
 
 type ActionsType = TotalDataCountActionType | ResetTotalDataCountActionType;
@@ -19,11 +19,10 @@ export function totalDataCountReducer(state = initialState, action: ActionsType)
           previousValue + currentValue.prices[action.payload.currencyIndex].amount,
         initialValue
       );
-      const taxCount = Math.round(sumTotalPrice * 0.21 * 100) / 100;
       return {
         ...stateCopy,
-        totalPrice: sumTotalPrice,
-        tax: taxCount,
+        totalPrice: sumTotalPrice.toFixed(2),
+        tax: (sumTotalPrice * 0.21).toFixed(2),
       };
     case 'COUNT_TOTAL_PRODUCTS_COUNT':
       const initial = 0;
