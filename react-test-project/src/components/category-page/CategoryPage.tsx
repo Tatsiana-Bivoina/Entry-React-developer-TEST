@@ -37,7 +37,7 @@ export class CategoryPage extends Component<Props> {
   }
 
   render() {
-    const { category = 'All' } = this.props;
+    const { category } = this.props;
     const { isCartModalOpen } = this.props;
 
     return (

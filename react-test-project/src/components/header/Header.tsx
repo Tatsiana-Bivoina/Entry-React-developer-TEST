@@ -6,7 +6,6 @@ import { CurrenciesDataType } from '../../types/productType';
 import { getCurrencyQuery } from './queries';
 import styled from 'styled-components';
 import './header.scss';
-// import logoIcon from '../../a-logo.png';
 
 const DropDownContainer = styled('div')`
   position: relative;

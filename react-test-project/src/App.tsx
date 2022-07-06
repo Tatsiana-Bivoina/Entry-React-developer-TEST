@@ -1,9 +1,12 @@
 import React, { Component } from 'react';
 import { Navigate, Route, Routes } from 'react-router-dom';
+import { client } from '.';
+import { getCategoriesQuery } from './queries';
 import CartPage from './components/cart-page/CartPage';
 import CategoryPage from './components/category-page/CategoryPage';
 import { Layout } from './components/layout/Layout';
 import ProductPage from './components/product-page/ProductPage';
+import { CategoriesType } from './types/productType';
 
 export interface AppProps {
   text?: string;
@@ -12,45 +15,47 @@ export interface AppProps {
 type Props = Readonly<AppProps>;
 
 type AppState = {
-  category: {
-    all: string;
-    clothes: string;
-    tech: string;
-  };
+  categories: string[];
 };
 
 class App extends Component<Props, AppState> {
   constructor(props: Props) {
     super(props);
     this.state = {
-      category: {
-        all: 'all',
-        clothes: 'clothes',
-        tech: 'tech',
-      },
+      categories: [],
     };
+  }
+
+  async getCategories(): Promise<CategoriesType> {
+    const response = await client.query({
+      query: getCategoriesQuery(),
+    });
+    return response.data;
+  }
+
+  async componentDidMount() {
+    const categoriesArr = (await this.getCategories()).categories.map((el) => el.name);
+    this.setState({ categories: categoriesArr });
   }
 
   render() {
     return (
       <Routes>
         <Route path="/" element={<Layout />}>
-          <Route index element={<Navigate to="category/all" replace />} />
-          <Route
-            path="category/all"
-            element={<CategoryPage category={this.state.category.all} />}
-          />
-          <Route path="category/all/:id" element={<ProductPage />} />
-          <Route
-            path="category/clothes"
-            element={<CategoryPage category={this.state.category.clothes} />}
-          />
-          <Route path="category/clothes/:id" element={<ProductPage />} />
-          <Route
-            path="category/tech"
-            element={<CategoryPage category={this.state.category.tech} />}
-          />
-          <Route path="category/tech/:id" element={<ProductPage />} />
+          {this.state.categories.length !== 0 && (
+            <React.Fragment>
+              <Route
+                index
+                element={<Navigate to={`category/${this.state.categories[0]}`} replace />}
+              />
+              {this.state.categories.map((el, index) => (
+                <React.Fragment key={index}>
+                  <Route path={`category/${el}`} element={<CategoryPage category={el} />} />
+                  <Route path={`category/${el}/:id`} element={<ProductPage />} key={index} />
+                </React.Fragment>
+              ))}
+            </React.Fragment>
+          )}
           <Route path="cart" element={<CartPage />} />
         </Route>
       </Routes>

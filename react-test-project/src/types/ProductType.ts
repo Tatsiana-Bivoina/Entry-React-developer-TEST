@@ -50,6 +50,14 @@ export interface CurrencyType {
   currentCurrency: string;
 }
 
+export interface CategoryType {
+  name: string;
+}
+
+export interface CategoriesType {
+  categories: CategoryType[];
+}
+
 export interface AllProductsMinResponse {
   name: string;
   products: CategoryProductsMinResponse[];
