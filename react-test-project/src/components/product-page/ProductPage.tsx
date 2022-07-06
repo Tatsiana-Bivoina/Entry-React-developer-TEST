@@ -15,6 +15,7 @@ import ModalCartContainer from '../modal-cart-container/ModalCartContainer';
 import { chooseClassName } from '../../controllers/productController';
 import nextId from 'react-id-generator';
 import { FaCheck, FaClock } from 'react-icons/fa';
+import parse from 'html-react-parser';
 
 type Props = Readonly<PropsFromRedux>;
 
@@ -152,7 +153,7 @@ export class ProductPage extends Component<Props, ProductPageState> {
   render() {
     const { currentProductData, activeAttributes, productCurrencyIndex } = this.state;
     const { isCartModalOpen } = this.props;
-    const regex = /(<([^>]+)>)/g;
+    // const regex = /(<([^>]+)>)/g;
 
     return (
       <>
@@ -256,12 +257,7 @@ export class ProductPage extends Component<Props, ProductPageState> {
                       {this.state.buttonText}
                     </button>
                   )}
-                  <p
-                    dangerouslySetInnerHTML={{
-                      __html: currentProductData.description.replace(regex, ''),
-                    }}
-                    className="product-description"
-                  />
+                  <div className="product-description">{parse(currentProductData.description)}</div>
                 </div>
               </div>
             )}
