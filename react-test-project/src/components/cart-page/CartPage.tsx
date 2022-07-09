@@ -40,7 +40,7 @@ export class CartPage extends Component<Props, CartPageState> {
       this.setState({ isCartEmpty: false });
     }
     this.props.countTotalPrice(this.props.productsInCart, this.state.productCurrencyIndex);
-    this.props.countTotalProductsCount(this.props.productsInCart, this.state.productCurrencyIndex);
+    this.props.countTotalProductsCount(this.props.productsInCart);
   }
 
   componentDidUpdate(prevProps: Readonly<Props>, prevState: CartPageState) {
@@ -73,12 +73,17 @@ export class CartPage extends Component<Props, CartPageState> {
 
   render() {
     const { showOrderMessage, isCartEmpty, pageName } = this.state;
-    const { isCartModalOpen, productsInCart } = this.props;
+    const { isCartModalOpen, productsInCart, toggleCurrencySwitcher } = this.props;
 
     return (
       <>
         {isCartModalOpen && <ModalCartContainer />}
-        <section className="cart-section">
+        <section
+          className="cart-section"
+          onClick={() => {
+            toggleCurrencySwitcher(false);
+          }}
+        >
           <div className="wrapper">
             <h3 className="cart-title">Cart</h3>
             <div className="cart-message-container">
@@ -130,13 +135,15 @@ const mapDispatchToProps = (dispatch: AppDispatch) => {
         type: 'COUNT_TOTAL_PRICE',
         payload: { data: productsData, currencyIndex: currencyIndex },
       }),
-    countTotalProductsCount: (productsData: CartDataType[], currencyIndex: number) =>
+    countTotalProductsCount: (productsData: CartDataType[]) =>
       dispatch({
         type: 'COUNT_TOTAL_PRODUCTS_COUNT',
-        payload: { data: productsData, currencyIndex: currencyIndex },
+        payload: { data: productsData },
       }),
     resetTotalDataCount: () => dispatch({ type: 'RESET_TOTAL_DATA_COUNT' }),
     clearCart: () => dispatch({ type: 'CLEAR_CART' }),
+    toggleCurrencySwitcher: (isCurrencySwitcherOpen: boolean) =>
+      dispatch({ type: 'TOGGLE_CURRENCY_SWITCHER', payload: isCurrencySwitcherOpen }),
   };
 };
 

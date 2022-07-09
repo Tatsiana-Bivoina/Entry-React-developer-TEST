@@ -2,13 +2,7 @@ import React, { Component } from 'react';
 import { connect, ConnectedProps } from 'react-redux';
 import { AppDispatch, RootState } from '../..';
 import { changeProductCurrencyIndex, chooseClassName } from '../../controllers/productController';
-import {
-  AttributesType,
-  CartDataType,
-  DefaultPricesType,
-  ItemType,
-  PriceType,
-} from '../../types/productType';
+import { AttributesType, CartDataType, ItemType } from '../../types/productType';
 import { FaMinus } from 'react-icons/fa';
 import './cart-item.scss';
 import ProductPhotoCarousel from '../product-photo-carousel/ProductPhotoCarousel';
@@ -23,7 +17,6 @@ type Props = Readonly<CartItemProps>;
 
 type CartItemState = {
   productCurrencyIndex: number;
-  startProductPrices: DefaultPricesType;
 };
 
 export class CartItem extends Component<Props, CartItemState> {
@@ -31,10 +24,6 @@ export class CartItem extends Component<Props, CartItemState> {
     super(props);
     this.state = {
       productCurrencyIndex: 0,
-      startProductPrices: {
-        id: '',
-        prices: [],
-      },
     };
   }
 
@@ -42,12 +31,9 @@ export class CartItem extends Component<Props, CartItemState> {
     this.setState({
       productCurrencyIndex: changeProductCurrencyIndex(this.props.data, this.props.currentCurrency),
     });
-    this.setState({
-      startProductPrices: Object.assign(this.state.startProductPrices, this.findDefaultPrices()),
-    });
   }
 
-  componentDidUpdate(prevProps: Readonly<Props>, prevState: CartItemState) {
+  componentDidUpdate(prevProps: Readonly<Props>) {
     if (this.props.currentCurrency !== prevProps.currentCurrency) {
       this.setState({
         productCurrencyIndex: changeProductCurrencyIndex(
@@ -58,47 +44,12 @@ export class CartItem extends Component<Props, CartItemState> {
     }
 
     if (
-      this.props.data.prices !== prevProps.data.prices ||
-      this.props.productsInCart.length !== prevProps.productsInCart.length
-    ) {
-      this.props.countTotalPrice(this.props.productsInCart, this.state.productCurrencyIndex);
-    }
-
-    if (
       this.props.data.amount !== prevProps.data.amount ||
       this.props.productsInCart.length !== prevProps.productsInCart.length
     ) {
-      this.props.countTotalProductsCount(
-        this.props.productsInCart,
-        this.state.productCurrencyIndex
-      );
+      this.props.countTotalProductsCount(this.props.productsInCart);
+      this.props.countTotalPrice(this.props.productsInCart, this.state.productCurrencyIndex);
     }
-
-    if (this.state.productCurrencyIndex !== prevState.productCurrencyIndex) {
-      this.props.editItem({
-        ...this.props.data,
-        prices: this.props.data.prices.map((el: PriceType, index) => {
-          return index === this.state.productCurrencyIndex
-            ? {
-                ...el,
-                amount:
-                  Math.round(
-                    this.state.startProductPrices.prices[this.state.productCurrencyIndex].amount *
-                      this.props.data.amount *
-                      100
-                  ) / 100,
-              }
-            : el;
-        }),
-      });
-    }
-  }
-
-  findDefaultPrices(): DefaultPricesType {
-    const index = this.props.defaultPrices.findIndex(
-      (el: DefaultPricesType) => el.id === this.props.data.id
-    );
-    return this.props.defaultPrices[index];
   }
 
   incrementAmount() {
@@ -106,19 +57,6 @@ export class CartItem extends Component<Props, CartItemState> {
     const changedData = {
       ...currentProductData,
       amount: currentProductData.amount + 1,
-      prices: currentProductData.prices.map((el: PriceType, index) => {
-        return index === this.state.productCurrencyIndex
-          ? {
-              ...el,
-              amount:
-                Math.round(
-                  this.state.startProductPrices.prices[this.state.productCurrencyIndex].amount *
-                    (currentProductData.amount + 1) *
-                    100
-                ) / 100,
-            }
-          : el;
-      }),
     };
     this.props.editItem(changedData);
   }
@@ -129,19 +67,6 @@ export class CartItem extends Component<Props, CartItemState> {
       const changedData = {
         ...currentProductData,
         amount: currentProductData.amount - 1,
-        prices: currentProductData.prices.map((el: PriceType, index) => {
-          return index === this.state.productCurrencyIndex
-            ? {
-                ...el,
-                amount:
-                  Math.round(
-                    this.state.startProductPrices.prices[this.state.productCurrencyIndex].amount *
-                      (currentProductData.amount - 1) *
-                      100
-                  ) / 100,
-              }
-            : el;
-        }),
       };
       this.props.editItem(changedData);
     } else {
@@ -227,7 +152,6 @@ const mapStateToProps = (state: RootState) => {
   return {
     currentCurrency: state.currencyReducer.currentCurrency,
     productsInCart: state.cartReducer,
-    defaultPrices: state.defaultPricesReducer,
   };
 };
 
@@ -240,10 +164,10 @@ const mapDispatchToProps = (dispatch: AppDispatch) => {
         type: 'COUNT_TOTAL_PRICE',
         payload: { data: productsData, currencyIndex: currencyIndex },
       }),
-    countTotalProductsCount: (productsData: CartDataType[], currencyIndex: number) =>
+    countTotalProductsCount: (productsData: CartDataType[]) =>
       dispatch({
         type: 'COUNT_TOTAL_PRODUCTS_COUNT',
-        payload: { data: productsData, currencyIndex: currencyIndex },
+        payload: { data: productsData },
       }),
   };
 };

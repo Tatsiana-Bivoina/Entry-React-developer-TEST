@@ -76,7 +76,7 @@
   margin-right: 12px;
   transition: .8s;
 
-  &:hover,
+  &:not(.attribute-btn:disabled):hover,
   &.active {
     background: $text-color;
     color: $color-white;

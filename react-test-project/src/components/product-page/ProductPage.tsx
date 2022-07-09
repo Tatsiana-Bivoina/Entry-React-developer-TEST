@@ -140,7 +140,7 @@ export class ProductPage extends Component<Props, ProductPageState> {
     }
   }
 
-  addProductToCart(): void {
+  addProductToCart() {
     const finalProductData = {
       ...this.state.currentProductData,
       generatedId: nextId(),
@@ -148,17 +148,22 @@ export class ProductPage extends Component<Props, ProductPageState> {
       amount: 1,
     };
     this.props.addToCart(finalProductData);
+    this.props.countTotalProductsCount(this.props.productsInCart);
   }
 
   render() {
     const { currentProductData, activeAttributes, productCurrencyIndex } = this.state;
-    const { isCartModalOpen } = this.props;
-    // const regex = /(<([^>]+)>)/g;
+    const { isCartModalOpen, toggleCurrencySwitcher } = this.props;
 
     return (
       <>
         {isCartModalOpen && <ModalCartContainer />}
-        <section className="product-page-section">
+        <section
+          className="product-page-section"
+          onClick={() => {
+            toggleCurrencySwitcher(false);
+          }}
+        >
           <div className="wrapper">
             {currentProductData && (
               <div className="product-page-container">
@@ -273,12 +278,20 @@ const mapStateToProps = (state: RootState) => {
     currentProductId: state.currentProductIdReducer,
     currentCurrency: state.currencyReducer.currentCurrency,
     isCartModalOpen: state.modalCartReducer.isCartModalOpen,
+    productsInCart: state.cartReducer,
   };
 };
 
 const mapDispatchToProps = (dispatch: AppDispatch) => {
   return {
     addToCart: (product: CartDataType) => dispatch({ type: 'ADD_TO_CART', payload: product }),
+    toggleCurrencySwitcher: (isCurrencySwitcherOpen: boolean) =>
+      dispatch({ type: 'TOGGLE_CURRENCY_SWITCHER', payload: isCurrencySwitcherOpen }),
+    countTotalProductsCount: (productsData: CartDataType[]) =>
+      dispatch({
+        type: 'COUNT_TOTAL_PRODUCTS_COUNT',
+        payload: { data: productsData },
+      }),
   };
 };
 

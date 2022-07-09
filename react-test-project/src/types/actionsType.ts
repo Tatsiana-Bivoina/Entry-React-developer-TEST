@@ -1,4 +1,4 @@
-import { CartDataType, CategoryProductsMinResponse, DefaultPricesType } from './productType';
+import { CartDataType, CategoryProductsMinResponse } from './productType';
 
 export type CategoryProductsActionType = {
   type: string;
@@ -25,7 +25,12 @@ export type ModalCartActionType = {
   payload: boolean;
 };
 
-export type TotalDataCountActionType = {
+export type CurrencySwitcherActionType = {
+  type: string;
+  payload: boolean;
+};
+
+export type TotalProductsPriceActionType = {
   type: string;
   payload: {
     data: CartDataType[];
@@ -33,9 +38,11 @@ export type TotalDataCountActionType = {
   };
 };
 
-export type DefaultPriceActionType = {
-  type: string;
-  payload: DefaultPricesType;
+export type TotalproductsCountActionType = {
+  type: 'COUNT_TOTAL_PRODUCTS_COUNT';
+  payload: {
+    data: CartDataType[];
+  };
 };
 
 export type ResetTotalDataCountActionType = {

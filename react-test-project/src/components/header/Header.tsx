@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect, ConnectedProps } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 import { AppDispatch, client, RootState } from '../..';
-import { CurrenciesDataType } from '../../types/productType';
+import { CartDataType, CurrenciesDataType } from '../../types/productType';
 import { getCurrencyQuery } from './queries';
 import styled from 'styled-components';
 import './header.scss';
@@ -89,7 +89,6 @@ export type Props = Readonly<PropsFromRedux>;
 
 type HeaderState = {
   currency: CurrenciesDataType[];
-  isOpen: boolean;
 };
 
 export class Header extends Component<Props, HeaderState> {
@@ -97,7 +96,6 @@ export class Header extends Component<Props, HeaderState> {
     super(props);
     this.state = {
       currency: [],
-      isOpen: false,
     };
   }
 
@@ -111,15 +109,16 @@ export class Header extends Component<Props, HeaderState> {
   async componentDidMount() {
     const data = await this.getData();
     this.setState({ currency: data });
+    this.props.countTotalProductsCount(this.props.productsInCart);
   }
 
   toggling(): void {
-    this.setState({ isOpen: !this.state.isOpen });
+    this.props.toggleCurrencySwitcher(!this.props.isCurrencySwitcherOpen);
   }
 
   onOptionClicked(value: string) {
     this.props.changeCurrency(value);
-    this.setState({ isOpen: false });
+    this.props.toggleCurrencySwitcher(false);
   }
 
   closeModal() {
@@ -128,41 +127,43 @@ export class Header extends Component<Props, HeaderState> {
   }
 
   render() {
-    const { isOpen, currency } = this.state;
-    const { toggleCartModal, isCartModalOpen, currentCurrency, cart } = this.props;
+    const { currency } = this.state;
+    const {
+      toggleCartModal,
+      isCartModalOpen,
+      isCurrencySwitcherOpen,
+      currentCurrency,
+      productsInCart,
+      totalCount,
+      toggleCurrencySwitcher,
+    } = this.props;
 
     return (
-      <header className="header">
+      <header
+        className="header"
+        onClick={() => {
+          toggleCurrencySwitcher(false);
+          this.closeModal();
+        }}
+      >
         <div className="wrapper">
           <div className="header-container">
             <div className="page-navigation">
               <NavLink
                 to="/category/all"
                 className={({ isActive }) => (isActive ? 'nav-item active' : 'nav-item')}
-                onClick={() => {
-                  this.closeModal();
-                  this.setState({ isOpen: false });
-                }}
               >
                 All
               </NavLink>
               <NavLink
                 to="/category/clothes"
                 className={({ isActive }) => (isActive ? 'nav-item active' : 'nav-item')}
-                onClick={() => {
-                  this.closeModal();
-                  this.setState({ isOpen: false });
-                }}
               >
                 Clothes
               </NavLink>
               <NavLink
                 to="/category/tech"
                 className={({ isActive }) => (isActive ? 'nav-item active' : 'nav-item')}
-                onClick={() => {
-                  this.closeModal();
-                  this.setState({ isOpen: false });
-                }}
               >
                 Tech
               </NavLink>
@@ -170,19 +171,19 @@ export class Header extends Component<Props, HeaderState> {
             <div className="logo-container">
               <img src="icons/a-logo.png" alt="logo" />
             </div>
-            <div className="cart-currency-container">
+            <div className="cart-currency-container" onClick={(event) => event.stopPropagation()}>
               <DropDownContainer className="drop-down-container">
                 <DropDownHeader
                   onClick={() => {
                     this.toggling();
                     this.closeModal();
                   }}
-                  className={isOpen ? 'active' : ''}
+                  className={isCurrencySwitcherOpen ? 'active' : ''}
                 >
                   <span>{currentCurrency}</span>
                   <div className="select-arrow" />
                 </DropDownHeader>
-                {isOpen && (
+                {isCurrencySwitcherOpen && (
                   <DropDownListContainer>
                     <DropDownList>
                       {currency.map((el: CurrenciesDataType, index) => (
@@ -200,10 +201,12 @@ export class Header extends Component<Props, HeaderState> {
                   onClick={() => {
                     toggleCartModal(!isCartModalOpen);
                     document.body.classList.toggle('scroll-hidden', !isCartModalOpen);
-                    this.setState({ isOpen: false });
+                    toggleCurrencySwitcher(false);
                   }}
                 />
-                {cart.length > 0 && <span className="cart-product-count">{cart.length}</span>}
+                {productsInCart.length > 0 && (
+                  <span className="cart-product-count">{totalCount}</span>
+                )}
               </div>
             </div>
           </div>
@@ -215,9 +218,11 @@ export class Header extends Component<Props, HeaderState> {
 
 const mapStateToProps = (state: RootState) => {
   return {
-    cart: state.cartReducer,
     currentCurrency: state.currencyReducer.currentCurrency,
     isCartModalOpen: state.modalCartReducer.isCartModalOpen,
+    isCurrencySwitcherOpen: state.currencySwitcherReducer.isCurrencySwitcherOpen,
+    totalCount: state.totalDataCountReducer.totalProductsCount,
+    productsInCart: state.cartReducer,
   };
 };
 
@@ -226,6 +231,13 @@ const mapDispatchToProps = (dispatch: AppDispatch) => {
     changeCurrency: (currency: string) => dispatch({ type: 'CHANGE_CURRENCY', payload: currency }),
     toggleCartModal: (isOpenModal: boolean) =>
       dispatch({ type: 'TOGGLE_MODAL', payload: isOpenModal }),
+    toggleCurrencySwitcher: (isCurrencySwitcherOpen: boolean) =>
+      dispatch({ type: 'TOGGLE_CURRENCY_SWITCHER', payload: isCurrencySwitcherOpen }),
+    countTotalProductsCount: (productsData: CartDataType[]) =>
+      dispatch({
+        type: 'COUNT_TOTAL_PRODUCTS_COUNT',
+        payload: { data: productsData },
+      }),
   };
 };
 

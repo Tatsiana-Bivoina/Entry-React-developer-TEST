@@ -22,7 +22,7 @@ export class ModalCartContainer extends Component<Props, ModalCartContainerState
 
   render() {
     const { pageName } = this.state;
-    const { productsInCart, isCartModalOpen } = this.props;
+    const { productsInCart, isCartModalOpen, totalCount } = this.props;
 
     return (
       <section
@@ -35,7 +35,7 @@ export class ModalCartContainer extends Component<Props, ModalCartContainerState
         <div className="wrapper">
           <div className="modal-container" onClick={(event) => event.stopPropagation()}>
             <h4 className="modal-container-title">
-              My Bag, <span>{`${productsInCart.length} items`}</span>
+              My Bag, <span>{`${totalCount} items`}</span>
             </h4>
             <CartProductsContainer pageName={pageName} />
             {productsInCart.length !== 0 && (
@@ -81,6 +81,7 @@ export class ModalCartContainer extends Component<Props, ModalCartContainerState
 const mapStateToProps = (state: RootState) => {
   return {
     productsInCart: state.cartReducer,
+    totalCount: state.totalDataCountReducer.totalProductsCount,
   };
 };
 

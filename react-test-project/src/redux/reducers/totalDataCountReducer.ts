@@ -1,4 +1,8 @@
-import { ResetTotalDataCountActionType, TotalDataCountActionType } from '../../types/actionsType';
+import {
+  ResetTotalDataCountActionType,
+  TotalproductsCountActionType,
+  TotalProductsPriceActionType,
+} from '../../types/actionsType';
 import { TotalDataCount } from '../../types/productType';
 
 const initialState: TotalDataCount = {
@@ -7,7 +11,10 @@ const initialState: TotalDataCount = {
   tax: '0',
 };
 
-type ActionsType = TotalDataCountActionType | ResetTotalDataCountActionType;
+type ActionsType =
+  | TotalProductsPriceActionType
+  | TotalproductsCountActionType
+  | ResetTotalDataCountActionType;
 
 export function totalDataCountReducer(state = initialState, action: ActionsType) {
   const stateCopy = { ...state };
@@ -16,7 +23,8 @@ export function totalDataCountReducer(state = initialState, action: ActionsType)
       const initialValue = 0;
       const sumTotalPrice = action.payload.data.reduce(
         (previousValue, currentValue) =>
-          previousValue + currentValue.prices[action.payload.currencyIndex].amount,
+          previousValue +
+          currentValue.prices[action.payload.currencyIndex].amount * currentValue.amount,
         initialValue
       );
       return {

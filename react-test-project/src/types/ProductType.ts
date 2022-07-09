@@ -84,8 +84,3 @@ export interface TotalDataCount {
   totalProductsCount: number;
   tax: string;
 }
-
-export interface DefaultPricesType {
-  id: string;
-  prices: PriceType[];
-}
