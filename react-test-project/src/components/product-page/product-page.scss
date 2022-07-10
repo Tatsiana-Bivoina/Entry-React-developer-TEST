@@ -112,6 +112,13 @@
   }
 }
 
+.btn-transparent {
+  color: $text-color;
+  background-color: transparent;
+  border: 1px solid $text-color;
+  margin-top: 20px;
+}
+
 .attribute-color-container {
   display: flex;
   padding-top: 3px;
@@ -150,6 +157,11 @@
     justify-content: space-around;
     margin-bottom: 15px;
   }
+
+  .btn-transparent {
+    margin-top: 0;
+    margin-left: 20px;
+  }
 }
 
 @media all and (max-width: 878px) {
@@ -171,5 +183,11 @@
 
   .max-photo {
     width: 80%;
+  }
+}
+
+@media all and (max-width: 630px) {
+  .btn-transparent {
+    margin: 0;
   }
 }

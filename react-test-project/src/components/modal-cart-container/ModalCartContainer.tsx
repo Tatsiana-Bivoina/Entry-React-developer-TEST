@@ -26,7 +26,7 @@ export class ModalCartContainer extends Component<Props, ModalCartContainerState
 
     return (
       <section
-        className="cart-modal-section"
+        className="overlay-modal-section"
         onClick={() => {
           isCartModalOpen(false);
           document.body.classList.toggle('scroll-hidden', !isCartModalOpen);

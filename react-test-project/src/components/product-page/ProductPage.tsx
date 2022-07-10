@@ -16,6 +16,7 @@ import { chooseClassName } from '../../controllers/productController';
 import nextId from 'react-id-generator';
 import { FaCheck, FaClock } from 'react-icons/fa';
 import parse from 'html-react-parser';
+import QuickShop from '../quick-shop/QuickShop';
 
 type Props = Readonly<PropsFromRedux>;
 
@@ -153,11 +154,13 @@ export class ProductPage extends Component<Props, ProductPageState> {
 
   render() {
     const { currentProductData, activeAttributes, productCurrencyIndex } = this.state;
-    const { isCartModalOpen, toggleCurrencySwitcher } = this.props;
+    const { isCartModalOpen, toggleCurrencySwitcher, isQuickShopModalOpen, toggleQuickShopModal } =
+      this.props;
 
     return (
       <>
         {isCartModalOpen && <ModalCartContainer />}
+        {isQuickShopModalOpen && <QuickShop />}
         <section
           className="product-page-section"
           onClick={() => {
@@ -247,9 +250,20 @@ export class ProductPage extends Component<Props, ProductPageState> {
                     {currentProductData.prices[productCurrencyIndex].amount}
                   </p>
                   {currentProductData.inStock && (
-                    <button className="btn-green" onClick={() => this.addProductToCart()}>
-                      Add to cart
-                    </button>
+                    <div>
+                      <button className="btn-green" onClick={() => this.addProductToCart()}>
+                        Add to cart
+                      </button>
+                      <button
+                        className="btn-green btn-transparent"
+                        onClick={() => {
+                          toggleQuickShopModal(true);
+                          document.body.classList.toggle('scroll-hidden', !isQuickShopModalOpen);
+                        }}
+                      >
+                        Buy in 1 click
+                      </button>
+                    </div>
                   )}
                   {!currentProductData.inStock && (
                     <button
@@ -279,6 +293,7 @@ const mapStateToProps = (state: RootState) => {
     currentCurrency: state.currencyReducer.currentCurrency,
     isCartModalOpen: state.modalCartReducer.isCartModalOpen,
     productsInCart: state.cartReducer,
+    isQuickShopModalOpen: state.quickShopReducer.isQuickShopModalOpen,
   };
 };
 
@@ -292,6 +307,8 @@ const mapDispatchToProps = (dispatch: AppDispatch) => {
         type: 'COUNT_TOTAL_PRODUCTS_COUNT',
         payload: { data: productsData },
       }),
+    toggleQuickShopModal: (isOpen: boolean) =>
+      dispatch({ type: 'TOGGLE_QUICK_SHOP_MODAL', payload: isOpen }),
   };
 };
 

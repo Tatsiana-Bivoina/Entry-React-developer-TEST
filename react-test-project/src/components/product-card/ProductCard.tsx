@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect, ConnectedProps } from 'react-redux';
-import { Link, Navigate } from 'react-router-dom';
+import { Navigate } from 'react-router-dom';
 import { AppDispatch, RootState } from '../..';
 import { CategoryProductsMinResponse, PriceType } from '../../types/productType';
 import './product-card.scss';
@@ -76,9 +76,7 @@ export class ProductCard extends Component<Props, ProductCardState> {
             {cardData.prices[productCurrencyIndex].currency.symbol}&nbsp;
             {cardData.prices[productCurrencyIndex].amount}
           </p>
-          <Link to={`/category/${cardData.category}/${cardData.id}`} className="cart-link">
-            <div className="cart-link-container" />
-          </Link>
+          <button className="quick-shop-link" />
         </div>
       </>
     );

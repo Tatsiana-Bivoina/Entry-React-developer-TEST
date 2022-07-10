@@ -5,6 +5,7 @@ import { currencySwitcherReducer } from './reducers/currencySwitcherReducer';
 import { currentProductIdReducer } from './reducers/currentProductIdReducer';
 import { modalCartReducer } from './reducers/modalCartReducer';
 import { productsDataReducer } from './reducers/productsDataReducer';
+import { quickShopReducer } from './reducers/quickShopReducer';
 import { totalDataCountReducer } from './reducers/totalDataCountReducer';
 
 export const rootReducer = combineReducers({
@@ -15,4 +16,5 @@ export const rootReducer = combineReducers({
   modalCartReducer,
   totalDataCountReducer,
   currencySwitcherReducer,
+  quickShopReducer,
 });

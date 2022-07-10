@@ -25,6 +25,11 @@ export type ModalCartActionType = {
   payload: boolean;
 };
 
+export type QuickShopActionType = {
+  type: string;
+  payload: boolean;
+};
+
 export type CurrencySwitcherActionType = {
   type: string;
   payload: boolean;

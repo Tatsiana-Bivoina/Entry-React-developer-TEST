@@ -15,12 +15,12 @@
     box-shadow: 0px 4px 35px rgba(168, 172, 176, 0.19);
   }
 
-  &:not(.overlay):hover .cart-link-container {
+  &:not(.overlay):hover .quick-shop-link {
     visibility: visible;
   }
 }
 
-.cart-link-container {
+.quick-shop-link {
   width: 52px;
   height: 52px;
   position: absolute;
@@ -28,6 +28,10 @@
   right: 32px;
   background-image: url('../../../public/btn-cart-icon.png');
   visibility: hidden;
+
+  &:hover {
+    cursor: pointer;
+  }
 }
 
 .img-container {
