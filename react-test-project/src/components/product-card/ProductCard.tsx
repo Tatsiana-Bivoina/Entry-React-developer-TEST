@@ -3,6 +3,7 @@ import { connect, ConnectedProps } from 'react-redux';
 import { Navigate } from 'react-router-dom';
 import { AppDispatch, RootState } from '../..';
 import { CategoryProductsMinResponse, PriceType } from '../../types/productType';
+import QuickShop from '../quick-shop/QuickShop';
 import './product-card.scss';
 
 export interface CardProps extends PropsFromRedux {
@@ -45,13 +46,15 @@ export class ProductCard extends Component<Props, ProductCardState> {
 
   render() {
     const { productCurrencyIndex } = this.state;
-    const { cardData, getCurrentProductId } = this.props;
+    const { cardData, getCurrentProductId, toggleQuickShopModal, isQuickShopModalOpen } =
+      this.props;
 
     return (
       <>
         {this.state.isClicked && (
           <Navigate to={`/category/${this.props.cardData.category}/${this.props.cardData.id}`} />
         )}
+        {isQuickShopModalOpen && <QuickShop />}
         <div
           className={cardData.inStock ? 'card' : 'card overlay'}
           onClick={() => {
@@ -76,7 +79,15 @@ export class ProductCard extends Component<Props, ProductCardState> {
             {cardData.prices[productCurrencyIndex].currency.symbol}&nbsp;
             {cardData.prices[productCurrencyIndex].amount}
           </p>
-          <button className="quick-shop-link" />
+          <button
+            className="quick-shop-link"
+            title="Buy in 1 click"
+            onClick={(event) => {
+              event.stopPropagation();
+              toggleQuickShopModal(true);
+              document.body.classList.toggle('scroll-hidden', !isQuickShopModalOpen);
+            }}
+          />
         </div>
       </>
     );
@@ -86,12 +97,15 @@ export class ProductCard extends Component<Props, ProductCardState> {
 const mapStateToProps = (state: RootState) => {
   return {
     currentCurrency: state.currencyReducer.currentCurrency,
+    isQuickShopModalOpen: state.quickShopReducer.isQuickShopModalOpen,
   };
 };
 
 const mapDispatchToProps = (dispatch: AppDispatch) => {
   return {
     getCurrentProductId: (id: string) => dispatch({ type: 'GET_CURRENT_PRODUCT_ID', payload: id }),
+    toggleQuickShopModal: (isOpen: boolean) =>
+      dispatch({ type: 'TOGGLE_QUICK_SHOP_MODAL', payload: isOpen }),
   };
 };
 
