@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect, ConnectedProps } from 'react-redux';
 import { AppDispatch, client, RootState } from '../..';
 import {
-  activeAttributesType,
+  ActiveAttributesType,
   AttributesType,
   CartDataType,
   ItemType,
@@ -25,7 +25,7 @@ type ProductPageState = {
   productCurrencyIndex: number;
   activeMinPhoto: string;
   maxPhotoSrc: string;
-  activeAttributes: activeAttributesType;
+  activeAttributes: ActiveAttributesType;
   buttonText: string;
 };
 
@@ -97,6 +97,9 @@ export class ProductPage extends Component<Props, ProductPageState> {
     if (prevProps.currentCurrency !== this.props.currentCurrency) {
       this.changeProductCurrencyIndex(this.state.currentProductData);
     }
+    if (prevProps.productsInCart.length !== this.props.productsInCart.length) {
+      this.props.countTotalProductsCount(this.props.productsInCart);
+    }
   }
 
   changeProductCurrencyIndex(data: ProductDataType) {
@@ -142,7 +145,7 @@ export class ProductPage extends Component<Props, ProductPageState> {
   }
 
   addProductToCart() {
-    const finalProductData = {
+    const finalProductData: CartDataType = {
       ...this.state.currentProductData,
       generatedId: nextId(),
       activeAttributes: this.state.activeAttributes,
