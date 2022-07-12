@@ -9,7 +9,7 @@ import {
   PriceType,
   ProductDataType,
 } from '../../types/productType';
-import { getCurrentProductDataQuery } from './queries';
+import { getCurrentProductDataQuery } from '../../queries/currentProductQuery';
 import './product-page.scss';
 import ModalCartContainer from '../modal-cart-container/ModalCartContainer';
 import { chooseClassName } from '../../controllers/productController';

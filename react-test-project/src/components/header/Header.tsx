@@ -3,7 +3,7 @@ import { connect, ConnectedProps } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 import { AppDispatch, client, RootState } from '../..';
 import { CartDataType, CurrenciesDataType } from '../../types/productType';
-import { getCurrencyQuery } from './queries';
+import { getCurrencyQuery } from '../../queries/currencyQuery';
 import styled from 'styled-components';
 import './header.scss';
 

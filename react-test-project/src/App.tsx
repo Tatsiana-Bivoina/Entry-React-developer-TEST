@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Navigate, Route, Routes } from 'react-router-dom';
 import { client } from '.';
-import { getCategoriesQuery } from './queries';
+import { getCategoriesQuery } from './queries/categoriesQuery';
 import CartPage from './components/cart-page/CartPage';
 import CategoryPage from './components/category-page/CategoryPage';
 import { Layout } from './components/layout/Layout';

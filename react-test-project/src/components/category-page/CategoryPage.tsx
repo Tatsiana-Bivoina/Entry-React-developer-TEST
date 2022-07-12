@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { AppDispatch, client, RootState } from '../..';
 import ProductCardsContainer from '../product-cards-container/ProductCardsContainer';
-import { getProductsQuery } from './queries';
+import { getProductsQuery } from '../../queries/productsQuery';
 import { CategoryProductsMinResponse } from '../../types/productType';
 import { connect, ConnectedProps } from 'react-redux';
 import ModalCartContainer from '../modal-cart-container/ModalCartContainer';
