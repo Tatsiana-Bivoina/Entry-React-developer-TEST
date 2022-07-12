@@ -191,6 +191,12 @@ export class ProductPage extends Component<Props, ProductPageState> {
                   </div>
                   <div className="max-photo-container">
                     <img className="max-photo" src={this.state.maxPhotoSrc} alt="" />
+                    {!currentProductData.inStock && (
+                      <>
+                        <div className="product-overlay" />
+                        <h4 className="overlay-title">OUT OF STOCK</h4>
+                      </>
+                    )}
                   </div>
                 </div>
                 <div className="description-container">
