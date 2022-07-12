@@ -3,7 +3,6 @@ import { connect, ConnectedProps } from 'react-redux';
 import { Navigate } from 'react-router-dom';
 import { AppDispatch, RootState } from '../..';
 import { CategoryProductsMinResponse, PriceType } from '../../types/productType';
-import QuickShop from '../quick-shop/QuickShop';
 import './product-card.scss';
 
 export interface CardProps extends PropsFromRedux {
@@ -54,7 +53,6 @@ export class ProductCard extends Component<Props, ProductCardState> {
         {this.state.isClicked && (
           <Navigate to={`/category/${this.props.cardData.category}/${this.props.cardData.id}`} />
         )}
-        {isQuickShopModalOpen && <QuickShop />}
         <div
           className={cardData.inStock ? 'card' : 'card overlay'}
           onClick={() => {
