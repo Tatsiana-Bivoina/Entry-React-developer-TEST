@@ -42,11 +42,6 @@ const DropDownHeader = styled('div')`
     background-repeat: no-repeat;
     transform: matrix(1, 0, 0, -1, 0, 0);
   }
-
-  &.active > .select-arrow {
-    color: red;
-    transform: rotate(0deg);
-  }
 `;
 
 const DropDownListContainer = styled('div')`
@@ -178,7 +173,6 @@ export class Header extends Component<Props, HeaderState> {
                     this.toggling();
                     this.closeModal();
                   }}
-                  className={isCurrencySwitcherOpen ? 'active' : ''}
                 >
                   <span>{currentCurrency}</span>
                   <div className="select-arrow" />
