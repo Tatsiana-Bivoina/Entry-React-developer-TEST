@@ -65,7 +65,7 @@ export interface AllProductsMinResponse {
   products: CategoryProductsMinResponse[];
 }
 
-export interface activeAttributesType {
+export interface ActiveAttributesType {
   activeColor: string;
   activeCapacity: string;
   activeSize: string;
@@ -75,7 +75,7 @@ export interface activeAttributesType {
 
 export interface CartDataType extends ProductDataType {
   generatedId: string;
-  activeAttributes: activeAttributesType;
+  activeAttributes: ActiveAttributesType;
   amount: number;
 }
 

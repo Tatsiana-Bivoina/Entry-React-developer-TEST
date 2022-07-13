@@ -1,11 +1,11 @@
 import {
-  activeAttributesType,
+  ActiveAttributesType,
   CartDataType,
   PriceType,
   ProductDataType,
 } from '../types/productType';
 
-export function chooseClassName(name: string, index: number, data: activeAttributesType): string {
+export function chooseClassName(name: string, index: number, data: ActiveAttributesType): string {
   if (name === 'Size') {
     if (data.activeSize === index.toString()) {
       return 'attribute-btn active';
