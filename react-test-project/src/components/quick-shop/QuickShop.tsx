@@ -34,12 +34,12 @@ export class QuickShop extends Component<Props, QuickShopState> {
     };
   }
 
-  closeQuickShopModal() {
+  closeQuickShopModal(): void {
     this.props.toggleQuickShopModal(false);
     document.body.classList.toggle('scroll-hidden', !this.props.isQuickShopModalOpen);
   }
 
-  checkInputNameValidation(value: string) {
+  checkInputNameValidation(value: string): void {
     const regExp = /([А-ЯЁA-Z]{1})([а-яёa-z]{1,15})/g;
     if (regExp.test(value)) {
       this.setState({ isInputNameValid: true });
@@ -50,7 +50,7 @@ export class QuickShop extends Component<Props, QuickShopState> {
     }
   }
 
-  checkInputPhoneValidation(value: string) {
+  checkInputPhoneValidation(value: string): void {
     const regExp = /([+]{0,1}[\d]{3,18})/g;
     if (regExp.test(value)) {
       this.setState({ isInputPhoneValid: true });
@@ -61,7 +61,7 @@ export class QuickShop extends Component<Props, QuickShopState> {
     }
   }
 
-  handleSubmit(event: React.SyntheticEvent) {
+  handleSubmit(event: React.SyntheticEvent): void {
     event?.preventDefault();
     if (this.state.inputName === '' || this.state.inputPhone === '') {
       if (this.state.inputName === '') {

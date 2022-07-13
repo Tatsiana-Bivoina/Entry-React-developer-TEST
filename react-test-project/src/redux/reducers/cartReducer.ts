@@ -1,6 +1,6 @@
 import { getLocalStorageCartData } from '../../controllers/productController';
 import { CartActionType, ClearCartActionType } from '../../types/actionsType';
-import { CartDataType } from '../../types/productType';
+import { CartDataType } from '../../types/productTypesList';
 
 const initialState: CartDataType[] = getLocalStorageCartData() || [];
 

@@ -3,7 +3,7 @@ import {
   CartDataType,
   PriceType,
   ProductDataType,
-} from '../types/productType';
+} from '../types/productTypesList';
 
 export function chooseClassName(name: string, index: number, data: ActiveAttributesType): string {
   if (name === 'Size') {

@@ -6,7 +6,7 @@ import CartPage from './components/cart-page/CartPage';
 import CategoryPage from './components/category-page/CategoryPage';
 import { Layout } from './components/layout/Layout';
 import ProductPage from './components/product-page/ProductPage';
-import { CategoriesType } from './types/productType';
+import { CategoriesType } from './types/productTypesList';
 
 export interface AppProps {
   text?: string;
@@ -48,7 +48,7 @@ class App extends Component<Props, AppState> {
                 index
                 element={<Navigate to={`category/${this.state.categories[0]}`} replace />}
               />
-              {this.state.categories.map((el, index) => (
+              {this.state.categories.map((el: string, index: number) => (
                 <React.Fragment key={index}>
                   <Route path={`category/${el}`} element={<CategoryPage category={el} />} />
                   <Route path={`category/${el}/:id`} element={<ProductPage />} key={index} />

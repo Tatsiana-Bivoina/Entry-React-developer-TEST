@@ -1,5 +1,5 @@
 import { CurrencyActionType } from '../../types/actionsType';
-import { CurrencyType } from '../../types/productType';
+import { CurrencyType } from '../../types/productTypesList';
 
 const initialState: CurrencyType = {
   currentCurrency: localStorage.getItem('currentCurrency') || '$',

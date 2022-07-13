@@ -1,5 +1,5 @@
 import { CategoryProductsActionType } from '../../types/actionsType';
-import { CategoryProductsMinResponse } from '../../types/productType';
+import { CategoryProductsMinResponse } from '../../types/productTypesList';
 
 const initialState: CategoryProductsMinResponse[] = [];
 

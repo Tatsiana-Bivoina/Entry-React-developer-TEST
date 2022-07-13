@@ -3,7 +3,7 @@ import { connect, ConnectedProps } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { AppDispatch, RootState } from '../..';
 import { changeProductCurrencyIndex } from '../../controllers/productController';
-import { CartDataType } from '../../types/productType';
+import { CartDataType } from '../../types/productTypesList';
 import CartProductsContainer from '../cart-products-container/CartProductsContainer';
 import ModalCartContainer from '../modal-cart-container/ModalCartContainer';
 import OrderDataContainer from '../order-data-container/OrderDataContainer';

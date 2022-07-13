@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect, ConnectedProps } from 'react-redux';
 import { RootState } from '../..';
-import { CartDataType } from '../../types/productType';
+import { CartDataType } from '../../types/productTypesList';
 import CartItem from '../cart-item/CartItem';
 
 interface CartProductsContainerProps extends PropsFromRedux {
@@ -18,7 +18,7 @@ export class CartProductsContainer extends Component<Props> {
       <div
         className={pageName === 'cart-page' ? 'cart-items-container' : 'cart-items-container modal'}
       >
-        {productsInCart.map((el: CartDataType, index) => (
+        {productsInCart.map((el: CartDataType, index: number) => (
           <CartItem data={el} key={index} pageName={pageName} />
         ))}
       </div>

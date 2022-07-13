@@ -1,4 +1,4 @@
-import { CartDataType, CategoryProductsMinResponse } from './productType';
+import { CartDataType, CategoryProductsMinResponse } from './productTypesList';
 
 export type CategoryProductsActionType = {
   type: string;

@@ -8,7 +8,7 @@ import {
   ItemType,
   PriceType,
   ProductDataType,
-} from '../../types/productType';
+} from '../../types/productTypesList';
 import { getCurrentProductDataQuery } from '../../queries/currentProductQuery';
 import './product-page.scss';
 import ModalCartContainer from '../modal-cart-container/ModalCartContainer';
@@ -87,7 +87,7 @@ export class ProductPage extends Component<Props, ProductPageState> {
   }
 
   async componentDidMount() {
-    const data = await this.getData();
+    const data: ProductDataType = await this.getData();
     this.setState({ currentProductData: data });
     this.setState({ maxPhotoSrc: data.gallery[0] });
     this.changeProductCurrencyIndex(data);
@@ -102,14 +102,14 @@ export class ProductPage extends Component<Props, ProductPageState> {
     }
   }
 
-  changeProductCurrencyIndex(data: ProductDataType) {
+  changeProductCurrencyIndex(data: ProductDataType): void {
     const currencyElemIndex: number = data.prices.findIndex(
       (elem: PriceType) => elem.currency.symbol === this.props.currentCurrency
     );
     this.setState({ productCurrencyIndex: currencyElemIndex });
   }
 
-  setActiveAttributes(name: string, index: string) {
+  setActiveAttributes(name: string, index: string): void {
     if (name === 'Size') {
       this.setState({
         activeAttributes: {
@@ -144,7 +144,7 @@ export class ProductPage extends Component<Props, ProductPageState> {
     }
   }
 
-  addProductToCart() {
+  addProductToCart(): void {
     const finalProductData: CartDataType = {
       ...this.state.currentProductData,
       generatedId: nextId(),
@@ -175,7 +175,7 @@ export class ProductPage extends Component<Props, ProductPageState> {
               <div className="product-page-container">
                 <div className="photo-container">
                   <div className="min-photo-container">
-                    {currentProductData.gallery.map((elem: string, index) => (
+                    {currentProductData.gallery.map((elem: string, index: number) => (
                       <img
                         className={
                           this.state.activeMinPhoto === index.toString()
@@ -208,7 +208,7 @@ export class ProductPage extends Component<Props, ProductPageState> {
                   {!currentProductData.inStock && (
                     <h4 className="product-out-of-stock">Out of stock</h4>
                   )}
-                  {currentProductData.attributes.map((el: AttributesType, index) => {
+                  {currentProductData.attributes.map((el: AttributesType, index: number) => {
                     return (
                       <div key={index}>
                         <h5 className="attribute-type">{el.name}:</h5>
@@ -236,7 +236,7 @@ export class ProductPage extends Component<Props, ProductPageState> {
                           </div>
                         ) : (
                           <div className="attribute-btn-container">
-                            {el.items.map((elem: ItemType, index) => (
+                            {el.items.map((elem: ItemType, index: number) => (
                               <button
                                 className={chooseClassName(el.name, index, activeAttributes)}
                                 key={index}

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect, ConnectedProps } from 'react-redux';
 import { Navigate } from 'react-router-dom';
 import { AppDispatch, RootState } from '../..';
-import { CategoryProductsMinResponse, PriceType } from '../../types/productType';
+import { CategoryProductsMinResponse, PriceType } from '../../types/productTypesList';
 import './product-card.scss';
 
 export interface CardProps extends PropsFromRedux {
@@ -36,7 +36,7 @@ export class ProductCard extends Component<Props, ProductCardState> {
     }
   }
 
-  changeProductCurrencyIndex(data: CategoryProductsMinResponse) {
+  changeProductCurrencyIndex(data: CategoryProductsMinResponse): void {
     const currencyElemIndex: number = data.prices.findIndex(
       (elem: PriceType) => elem.currency.symbol === this.props.currentCurrency
     );

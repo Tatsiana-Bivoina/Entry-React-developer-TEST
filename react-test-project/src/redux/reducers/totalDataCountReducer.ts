@@ -3,7 +3,7 @@ import {
   TotalproductsCountActionType,
   TotalProductsPriceActionType,
 } from '../../types/actionsType';
-import { TotalDataCount } from '../../types/productType';
+import { TotalDataCount } from '../../types/productTypesList';
 
 const initialState: TotalDataCount = {
   totalPrice: '0',

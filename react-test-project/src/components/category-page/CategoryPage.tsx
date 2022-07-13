@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { AppDispatch, client, RootState } from '../..';
 import ProductCardsContainer from '../product-cards-container/ProductCardsContainer';
 import { getProductsQuery } from '../../queries/productsQuery';
-import { CategoryProductsMinResponse } from '../../types/productType';
+import { CategoryProductsMinResponse } from '../../types/productTypesList';
 import { connect, ConnectedProps } from 'react-redux';
 import ModalCartContainer from '../modal-cart-container/ModalCartContainer';
 import './category-page.scss';
@@ -23,13 +23,13 @@ export class CategoryPage extends Component<Props> {
   }
 
   async componentDidMount() {
-    const data = await this.getData();
+    const data: CategoryProductsMinResponse[] = await this.getData();
     this.props.getProductsData(data);
   }
 
   async componentDidUpdate(prevProps: Readonly<Props>) {
     if (prevProps.category !== this.props.category) {
-      const data = await this.getData();
+      const data: CategoryProductsMinResponse[] = await this.getData();
       this.props.getProductsData(data);
     }
   }

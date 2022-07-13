@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect, ConnectedProps } from 'react-redux';
 import { AppDispatch, RootState } from '../..';
 import { changeProductCurrencyIndex } from '../../controllers/productController';
-import { CartDataType } from '../../types/productType';
+import { CartDataType } from '../../types/productTypesList';
 
 interface OrderDataContainerProps extends PropsFromRedux {
   pageName: string;

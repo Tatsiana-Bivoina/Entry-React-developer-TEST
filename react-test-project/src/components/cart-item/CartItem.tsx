@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect, ConnectedProps } from 'react-redux';
 import { AppDispatch, RootState } from '../..';
 import { changeProductCurrencyIndex, chooseClassName } from '../../controllers/productController';
-import { AttributesType, CartDataType, ItemType } from '../../types/productType';
+import { AttributesType, CartDataType, ItemType } from '../../types/productTypesList';
 import { FaMinus } from 'react-icons/fa';
 import './cart-item.scss';
 import ProductPhotoCarousel from '../product-photo-carousel/ProductPhotoCarousel';
@@ -86,13 +86,13 @@ export class CartItem extends Component<Props, CartItemState> {
             {data.prices[this.state.productCurrencyIndex].currency.symbol}
             {data.prices[this.state.productCurrencyIndex].amount}
           </p>
-          {data.attributes.map((el: AttributesType, index) => {
+          {data.attributes.map((el: AttributesType, index: number) => {
             return (
               <div key={index} className="attribute-container">
                 <h5 className="attribute-type">{el.name}:</h5>
                 {el.name === 'Color' ? (
                   <div className="attribute-color-container">
-                    {el.items.map((elem: ItemType, index) => (
+                    {el.items.map((elem: ItemType, index: number) => (
                       <div
                         key={index}
                         className={
@@ -106,7 +106,7 @@ export class CartItem extends Component<Props, CartItemState> {
                   </div>
                 ) : (
                   <div className="attribute-btn-container">
-                    {el.items.map((elem: ItemType, index) => (
+                    {el.items.map((elem: ItemType, index: number) => (
                       <button
                         disabled
                         className={chooseClassName(
@@ -136,7 +136,7 @@ export class CartItem extends Component<Props, CartItemState> {
             </button>
           </div>
           <ProductPhotoCarousel galleryLength={data.gallery.length} pageName={pageName}>
-            {data.gallery.map((elem: string, index) => (
+            {data.gallery.map((elem: string, index: number) => (
               <div className="image-container" key={index}>
                 <img src={elem} alt="" />
               </div>

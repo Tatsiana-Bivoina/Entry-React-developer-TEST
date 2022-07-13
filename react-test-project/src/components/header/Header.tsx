@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect, ConnectedProps } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 import { AppDispatch, client, RootState } from '../..';
-import { CartDataType, CurrenciesDataType } from '../../types/productType';
+import { CartDataType, CurrenciesDataType } from '../../types/productTypesList';
 import { getCurrencyQuery } from '../../queries/currencyQuery';
 import styled from 'styled-components';
 import './header.scss';
@@ -102,7 +102,7 @@ export class Header extends Component<Props, HeaderState> {
   }
 
   async componentDidMount() {
-    const data = await this.getData();
+    const data: CurrenciesDataType[] = await this.getData();
     this.setState({ currency: data });
     this.props.countTotalProductsCount(this.props.productsInCart);
   }
@@ -111,12 +111,12 @@ export class Header extends Component<Props, HeaderState> {
     this.props.toggleCurrencySwitcher(!this.props.isCurrencySwitcherOpen);
   }
 
-  onOptionClicked(value: string) {
+  onOptionClicked(value: string): void {
     this.props.changeCurrency(value);
     this.props.toggleCurrencySwitcher(false);
   }
 
-  closeModal() {
+  closeModal(): void {
     this.props.toggleCartModal(false);
     document.body.classList.toggle('scroll-hidden', false);
   }
@@ -180,7 +180,7 @@ export class Header extends Component<Props, HeaderState> {
                 {isCurrencySwitcherOpen && (
                   <DropDownListContainer>
                     <DropDownList>
-                      {currency.map((el: CurrenciesDataType, index) => (
+                      {currency.map((el: CurrenciesDataType, index: number) => (
                         <ListItem onClick={() => this.onOptionClicked(el.symbol)} key={index}>
                           {el.symbol} {el.label}
                         </ListItem>

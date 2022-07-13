@@ -23,7 +23,7 @@ export default class ProductPhotoCarousel extends Component<Props, ProductPhotoC
     };
   }
 
-  chooseNextPhoto() {
+  chooseNextPhoto(): void {
     if (this.state.offset > PHOTO_WIDTH * (this.props.galleryLength - 1) * -1) {
       this.setState((prevState) => ({
         offset: prevState.offset - PHOTO_WIDTH,
@@ -31,7 +31,7 @@ export default class ProductPhotoCarousel extends Component<Props, ProductPhotoC
     }
   }
 
-  choosePrevPhoto() {
+  choosePrevPhoto(): void {
     if (this.state.offset < 0) {
       this.setState((prevState) => ({
         offset: prevState.offset + PHOTO_WIDTH,
