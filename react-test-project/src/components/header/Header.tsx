@@ -5,6 +5,7 @@ import { AppDispatch, client, RootState } from '../..';
 import { CartDataType, CurrenciesDataType } from '../../types/productTypesList';
 import { getCurrencyQuery } from '../../queries/currencyQuery';
 import styled from 'styled-components';
+import { AiOutlineDown, AiOutlineUp } from 'react-icons/ai';
 import './header.scss';
 
 const DropDownContainer = styled('div')`
@@ -32,15 +33,15 @@ const DropDownHeader = styled('div')`
 
   .select-arrow {
     position: absolute;
-    right: 6px;
-    top: 8px;
-    width: 6px;
-    height: 3px;
-    background-image: url('icons/arrow-icon.png');
-    background-position: center;
-    background-size: cover;
-    background-repeat: no-repeat;
-    transform: matrix(1, 0, 0, -1, 0, 0);
+    right: 2px;
+    top: 3px;
+    width: 13px;
+    height: 13px;
+  }
+
+  .select-icon {
+    width: 100%;
+    height: 100%;
   }
 `;
 
@@ -175,7 +176,13 @@ export class Header extends Component<Props, HeaderState> {
                   }}
                 >
                   <span>{currentCurrency}</span>
-                  <div className="select-arrow" />
+                  <div className="select-arrow">
+                    {isCurrencySwitcherOpen ? (
+                      <AiOutlineUp className="select-icon" />
+                    ) : (
+                      <AiOutlineDown className="select-icon" />
+                    )}
+                  </div>
                 </DropDownHeader>
                 {isCurrencySwitcherOpen && (
                   <DropDownListContainer>
