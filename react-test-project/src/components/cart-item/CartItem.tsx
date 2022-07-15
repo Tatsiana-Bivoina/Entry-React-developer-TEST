@@ -135,7 +135,11 @@ export class CartItem extends Component<Props, CartItemState> {
               <FaMinus className="icon-minus" />
             </button>
           </div>
-          <ProductPhotoCarousel galleryLength={data.gallery.length} pageName={pageName}>
+          <ProductPhotoCarousel
+            galleryLength={data.gallery.length}
+            pageName={pageName}
+            infinite={true}
+          >
             {data.gallery.map((elem: string, index: number) => (
               <div className="image-container" key={index}>
                 <img src={elem} alt="" />
