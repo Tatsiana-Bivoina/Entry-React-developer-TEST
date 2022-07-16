@@ -13,6 +13,11 @@
   box-shadow: 0px 4px 40px rgb(0 0 0 / 65%);
   border-radius: 3px;
 
+  &.plp {
+    width: 50rem;
+    height: 90vh;
+  }
+
   .btn-green {
     width: 200px;
     height: 40px;
@@ -93,4 +98,11 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+}
+
+@media all and (max-width: 878px) {
+  .quick-shop-container.plp {
+    width: 90%;
+    height: 90vh;
+  }
 }

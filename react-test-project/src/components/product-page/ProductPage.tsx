@@ -16,9 +16,13 @@ import { chooseClassName } from '../../controllers/productController';
 import nextId from 'react-id-generator';
 import { FaCheck, FaClock } from 'react-icons/fa';
 import parse from 'html-react-parser';
-import QuickShop from '../quick-shop/QuickShop';
+import QuickShopPDP from '../quick-shop/QuickShopPDP';
 
-type Props = Readonly<PropsFromRedux>;
+interface ProductPageProps extends PropsFromRedux {
+  fromPage?: string | undefined;
+}
+
+type Props = Readonly<ProductPageProps>;
 
 type ProductPageState = {
   currentProductData: ProductDataType;
@@ -97,9 +101,6 @@ export class ProductPage extends Component<Props, ProductPageState> {
     if (prevProps.currentCurrency !== this.props.currentCurrency) {
       this.changeProductCurrencyIndex(this.state.currentProductData);
     }
-    if (prevProps.productsInCart.length !== this.props.productsInCart.length) {
-      this.props.countTotalProductsCount(this.props.productsInCart);
-    }
   }
 
   changeProductCurrencyIndex(data: ProductDataType): void {
@@ -153,141 +154,170 @@ export class ProductPage extends Component<Props, ProductPageState> {
     };
     this.props.addToCart(finalProductData);
     this.props.countTotalProductsCount(this.props.productsInCart);
+    if (this.props.fromPage === 'quickShopPLP') {
+      this.props.toggleQuickShopPLPModal(false);
+      document.body.classList.toggle('scroll-hidden', !this.props.isQuickShopPLPModalOpen);
+    }
   }
 
   render() {
     const { currentProductData, activeAttributes, productCurrencyIndex } = this.state;
-    const { isCartModalOpen, toggleCurrencySwitcher, isQuickShopModalOpen, toggleQuickShopModal } =
-      this.props;
+    const {
+      isCartModalOpen,
+      toggleCurrencySwitcher,
+      isQuickShopPDPModalOpen,
+      toggleQuickShopPDPModal,
+      fromPage,
+    } = this.props;
 
     return (
       <>
         {isCartModalOpen && <ModalCartContainer />}
-        {isQuickShopModalOpen && <QuickShop />}
+        {isQuickShopPDPModalOpen && <QuickShopPDP />}
         <section
-          className="product-page-section"
+          className={
+            fromPage === 'quickShopPLP'
+              ? 'product-page-section quick-shop-plp'
+              : 'product-page-section'
+          }
           onClick={() => {
             toggleCurrencySwitcher(false);
           }}
         >
           <div className="wrapper">
             {currentProductData && (
-              <div className="product-page-container">
-                <div className="photo-container">
-                  <div className="min-photo-container">
-                    {currentProductData.gallery.map((elem: string, index: number) => (
-                      <img
-                        className={
-                          this.state.activeMinPhoto === index.toString()
-                            ? 'min-photo active'
-                            : 'min-photo'
-                        }
-                        key={index}
-                        src={elem}
-                        alt=""
-                        onClick={() => {
-                          this.setState({ activeMinPhoto: index.toString() });
-                          this.setState({ maxPhotoSrc: elem });
-                        }}
-                      />
-                    ))}
+              <>
+                {fromPage === 'quickShopPLP' && (
+                  <h4 className="quick-shop-plp-title">
+                    You can add this item to your shopping cart in 1 click
+                  </h4>
+                )}
+                <div className="product-page-container">
+                  <div className="photo-container">
+                    <div className="min-photo-container">
+                      {currentProductData.gallery.map((elem: string, index: number) => (
+                        <img
+                          className={
+                            this.state.activeMinPhoto === index.toString()
+                              ? 'min-photo active'
+                              : 'min-photo'
+                          }
+                          key={index}
+                          src={elem}
+                          alt=""
+                          onClick={() => {
+                            this.setState({ activeMinPhoto: index.toString() });
+                            this.setState({ maxPhotoSrc: elem });
+                          }}
+                        />
+                      ))}
+                    </div>
+                    <div className="max-photo-container">
+                      <img className="max-photo" src={this.state.maxPhotoSrc} alt="" />
+                      {!currentProductData.inStock && (
+                        <>
+                          <div className="product-overlay" />
+                          <h4 className="overlay-title">OUT OF STOCK</h4>
+                        </>
+                      )}
+                    </div>
                   </div>
-                  <div className="max-photo-container">
-                    <img className="max-photo" src={this.state.maxPhotoSrc} alt="" />
+                  <div className="description-container">
+                    <h3 className="product-brand">{currentProductData.brand}</h3>
+                    <h4 className="product-name">{currentProductData.name}</h4>
                     {!currentProductData.inStock && (
-                      <>
-                        <div className="product-overlay" />
-                        <h4 className="overlay-title">OUT OF STOCK</h4>
-                      </>
+                      <h4 className="product-out-of-stock">Out of stock</h4>
                     )}
-                  </div>
-                </div>
-                <div className="description-container">
-                  <h3 className="product-brand">{currentProductData.brand}</h3>
-                  <h4 className="product-name">{currentProductData.name}</h4>
-                  {!currentProductData.inStock && (
-                    <h4 className="product-out-of-stock">Out of stock</h4>
-                  )}
-                  {currentProductData.attributes.map((el: AttributesType, index: number) => {
-                    return (
-                      <div key={index}>
-                        <h5 className="attribute-type">{el.name}:</h5>
-                        {el.name === 'Color' ? (
-                          <div className="attribute-color-container">
-                            {el.items.map((elem: ItemType, index) => (
-                              <div
-                                key={index}
-                                className={
-                                  activeAttributes.activeColor === index.toString()
-                                    ? 'attribute-btn-color active'
-                                    : 'attribute-btn-color'
-                                }
-                                style={{ backgroundColor: elem.value }}
-                                onClick={() => {
-                                  this.setState({
-                                    activeAttributes: {
-                                      ...activeAttributes,
-                                      activeColor: index.toString(),
-                                    },
-                                  });
-                                }}
-                              />
-                            ))}
-                          </div>
-                        ) : (
-                          <div className="attribute-btn-container">
-                            {el.items.map((elem: ItemType, index: number) => (
-                              <button
-                                className={chooseClassName(el.name, index, activeAttributes)}
-                                key={index}
-                                onClick={() => this.setActiveAttributes(el.name, index.toString())}
-                              >
-                                {elem.value}
-                              </button>
-                            ))}
-                          </div>
+                    {currentProductData.attributes.map((el: AttributesType, index: number) => {
+                      return (
+                        <div key={index}>
+                          <h5 className="attribute-type">{el.name}:</h5>
+                          {el.name === 'Color' ? (
+                            <div className="attribute-color-container">
+                              {el.items.map((elem: ItemType, index) => (
+                                <div
+                                  key={index}
+                                  className={
+                                    activeAttributes.activeColor === index.toString()
+                                      ? 'attribute-btn-color active'
+                                      : 'attribute-btn-color'
+                                  }
+                                  style={{ backgroundColor: elem.value }}
+                                  onClick={() => {
+                                    this.setState({
+                                      activeAttributes: {
+                                        ...activeAttributes,
+                                        activeColor: index.toString(),
+                                      },
+                                    });
+                                  }}
+                                />
+                              ))}
+                            </div>
+                          ) : (
+                            <div className="attribute-btn-container">
+                              {el.items.map((elem: ItemType, index: number) => (
+                                <button
+                                  className={chooseClassName(el.name, index, activeAttributes)}
+                                  key={index}
+                                  onClick={() =>
+                                    this.setActiveAttributes(el.name, index.toString())
+                                  }
+                                >
+                                  {elem.value}
+                                </button>
+                              ))}
+                            </div>
+                          )}
+                        </div>
+                      );
+                    })}
+                    <h5 className="product-price-title">
+                      {currentProductData.inStock ? 'Price:' : 'Preliminary price:'}
+                    </h5>
+                    <p className="product-current-price">
+                      {currentProductData.prices[productCurrencyIndex].currency.symbol}
+                      &nbsp;
+                      {currentProductData.prices[productCurrencyIndex].amount}
+                    </p>
+                    {currentProductData.inStock && (
+                      <div>
+                        <button className="btn-green" onClick={() => this.addProductToCart()}>
+                          Add to cart
+                        </button>
+                        {fromPage !== 'quickShopPLP' && (
+                          <button
+                            className="btn-green btn-transparent"
+                            onClick={() => {
+                              toggleQuickShopPDPModal(true);
+                              document.body.classList.toggle(
+                                'scroll-hidden',
+                                !isQuickShopPDPModalOpen
+                              );
+                            }}
+                          >
+                            Buy in 1 click
+                          </button>
                         )}
                       </div>
-                    );
-                  })}
-                  <h5 className="product-price-title">
-                    {currentProductData.inStock ? 'Price:' : 'Preliminary price:'}
-                  </h5>
-                  <p className="product-current-price">
-                    {currentProductData.prices[productCurrencyIndex].currency.symbol}
-                    &nbsp;
-                    {currentProductData.prices[productCurrencyIndex].amount}
-                  </p>
-                  {currentProductData.inStock && (
-                    <div>
-                      <button className="btn-green" onClick={() => this.addProductToCart()}>
-                        Add to cart
-                      </button>
+                    )}
+                    {!currentProductData.inStock && (
                       <button
-                        className="btn-green btn-transparent"
-                        onClick={() => {
-                          toggleQuickShopModal(true);
-                          document.body.classList.toggle('scroll-hidden', !isQuickShopModalOpen);
-                        }}
+                        className="btn-green"
+                        onClick={() => this.setState({ buttonText: 'Request accepted' })}
                       >
-                        Buy in 1 click
+                        {this.state.buttonText === 'Request accepted' && <FaCheck />}
+                        {this.state.buttonText === 'Leave a request' && <FaClock />}
+                        &nbsp; &nbsp;
+                        {this.state.buttonText}
                       </button>
+                    )}
+                    <div className="product-description">
+                      {parse(currentProductData.description)}
                     </div>
-                  )}
-                  {!currentProductData.inStock && (
-                    <button
-                      className="btn-green"
-                      onClick={() => this.setState({ buttonText: 'Request accepted' })}
-                    >
-                      {this.state.buttonText === 'Request accepted' && <FaCheck />}
-                      {this.state.buttonText === 'Leave a request' && <FaClock />}
-                      &nbsp; &nbsp;
-                      {this.state.buttonText}
-                    </button>
-                  )}
-                  <div className="product-description">{parse(currentProductData.description)}</div>
+                  </div>
                 </div>
-              </div>
+              </>
             )}
           </div>
         </section>
@@ -302,7 +332,8 @@ const mapStateToProps = (state: RootState) => {
     currentCurrency: state.currencyReducer.currentCurrency,
     isCartModalOpen: state.modalCartReducer.isCartModalOpen,
     productsInCart: state.cartReducer,
-    isQuickShopModalOpen: state.quickShopReducer.isQuickShopModalOpen,
+    isQuickShopPDPModalOpen: state.quickShopReducer.isQuickShopPDPModalOpen,
+    isQuickShopPLPModalOpen: state.quickShopReducer.isQuickShopPLPModalOpen,
   };
 };
 
@@ -316,8 +347,10 @@ const mapDispatchToProps = (dispatch: AppDispatch) => {
         type: 'COUNT_TOTAL_PRODUCTS_COUNT',
         payload: { data: productsData },
       }),
-    toggleQuickShopModal: (isOpen: boolean) =>
-      dispatch({ type: 'TOGGLE_QUICK_SHOP_MODAL', payload: isOpen }),
+    toggleQuickShopPDPModal: (isOpen: boolean) =>
+      dispatch({ type: 'TOGGLE_QUICK_SHOP_PDP_MODAL', payload: isOpen }),
+    toggleQuickShopPLPModal: (isOpen: boolean) =>
+      dispatch({ type: 'TOGGLE_QUICK_SHOP_PLP_MODAL', payload: isOpen }),
   };
 };
 

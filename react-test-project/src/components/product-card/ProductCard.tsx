@@ -45,7 +45,7 @@ export class ProductCard extends Component<Props, ProductCardState> {
 
   render() {
     const { productCurrencyIndex } = this.state;
-    const { cardData, getCurrentProductId, toggleQuickShopModal, isQuickShopModalOpen } =
+    const { cardData, getCurrentProductId, toggleQuickShopPLPModal, isQuickShopPLPModalOpen } =
       this.props;
 
     return (
@@ -82,8 +82,9 @@ export class ProductCard extends Component<Props, ProductCardState> {
             title="Buy in 1 click"
             onClick={(event) => {
               event.stopPropagation();
-              toggleQuickShopModal(true);
-              document.body.classList.toggle('scroll-hidden', !isQuickShopModalOpen);
+              getCurrentProductId(cardData.id);
+              toggleQuickShopPLPModal(true);
+              document.body.classList.toggle('scroll-hidden', !isQuickShopPLPModalOpen);
             }}
           />
         </div>
@@ -95,15 +96,15 @@ export class ProductCard extends Component<Props, ProductCardState> {
 const mapStateToProps = (state: RootState) => {
   return {
     currentCurrency: state.currencyReducer.currentCurrency,
-    isQuickShopModalOpen: state.quickShopReducer.isQuickShopModalOpen,
+    isQuickShopPLPModalOpen: state.quickShopReducer.isQuickShopPLPModalOpen,
   };
 };
 
 const mapDispatchToProps = (dispatch: AppDispatch) => {
   return {
     getCurrentProductId: (id: string) => dispatch({ type: 'GET_CURRENT_PRODUCT_ID', payload: id }),
-    toggleQuickShopModal: (isOpen: boolean) =>
-      dispatch({ type: 'TOGGLE_QUICK_SHOP_MODAL', payload: isOpen }),
+    toggleQuickShopPLPModal: (isOpen: boolean) =>
+      dispatch({ type: 'TOGGLE_QUICK_SHOP_PLP_MODAL', payload: isOpen }),
   };
 };
 

@@ -112,6 +112,12 @@ export class Header extends Component<Props, HeaderState> {
     this.props.countTotalProductsCount(this.props.productsInCart);
   }
 
+  componentDidUpdate(prevProps: Readonly<Props>) {
+    if (prevProps.productsInCart.length !== this.props.productsInCart.length) {
+      this.props.countTotalProductsCount(this.props.productsInCart);
+    }
+  }
+
   toggling(): void {
     this.props.toggleCurrencySwitcher(!this.props.isCurrencySwitcherOpen);
   }

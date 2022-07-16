@@ -18,7 +18,7 @@ type QuickShopState = {
   isOrder: boolean;
 };
 
-export class QuickShop extends Component<Props, QuickShopState> {
+export class QuickShopPDP extends Component<Props, QuickShopState> {
   constructor(props: Props) {
     super(props);
     this.state = {
@@ -35,8 +35,8 @@ export class QuickShop extends Component<Props, QuickShopState> {
   }
 
   closeQuickShopModal(): void {
-    this.props.toggleQuickShopModal(false);
-    document.body.classList.toggle('scroll-hidden', !this.props.isQuickShopModalOpen);
+    this.props.toggleQuickShopPDPModal(false);
+    document.body.classList.toggle('scroll-hidden', !this.props.isQuickShopPDPModalOpen);
   }
 
   checkInputNameValidation(value: string): void {
@@ -96,7 +96,7 @@ export class QuickShop extends Component<Props, QuickShopState> {
           this.closeQuickShopModal();
         }}
       >
-        <div className="quick-shop-container" onClick={(event) => event.stopPropagation()}>
+        <div className="quick-shop-container pdp" onClick={(event) => event.stopPropagation()}>
           <AiFillCloseCircle
             className="icon-close"
             onClick={() => {
@@ -166,14 +166,14 @@ export class QuickShop extends Component<Props, QuickShopState> {
 
 const mapStateToProps = (state: RootState) => {
   return {
-    isQuickShopModalOpen: state.quickShopReducer.isQuickShopModalOpen,
+    isQuickShopPDPModalOpen: state.quickShopReducer.isQuickShopPDPModalOpen,
   };
 };
 
 const mapDispatchToProps = (dispatch: AppDispatch) => {
   return {
-    toggleQuickShopModal: (isOpen: boolean) =>
-      dispatch({ type: 'TOGGLE_QUICK_SHOP_MODAL', payload: isOpen }),
+    toggleQuickShopPDPModal: (isOpen: boolean) =>
+      dispatch({ type: 'TOGGLE_QUICK_SHOP_PDP_MODAL', payload: isOpen }),
   };
 };
 
@@ -181,4 +181,4 @@ const connector = connect(mapStateToProps, mapDispatchToProps);
 
 type PropsFromRedux = ConnectedProps<typeof connector>;
 
-export default connector(QuickShop);
+export default connector(QuickShopPDP);

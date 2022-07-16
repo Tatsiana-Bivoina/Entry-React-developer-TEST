@@ -6,7 +6,7 @@ import { CategoryProductsMinResponse } from '../../types/productTypesList';
 import { connect, ConnectedProps } from 'react-redux';
 import ModalCartContainer from '../modal-cart-container/ModalCartContainer';
 import './category-page.scss';
-import QuickShop from '../quick-shop/QuickShop';
+import QuickShopPLP from '../quick-shop/QuickShopPLP';
 
 export interface CategoryPageProps extends PropsFromRedux {
   category: string;
@@ -36,12 +36,12 @@ export class CategoryPage extends Component<Props> {
 
   render() {
     const { category } = this.props;
-    const { isCartModalOpen, toggleCurrencySwitcher, isQuickShopModalOpen } = this.props;
+    const { isCartModalOpen, toggleCurrencySwitcher, isQuickShopPLPModalOpen } = this.props;
 
     return (
       <>
         {isCartModalOpen && <ModalCartContainer />}
-        {isQuickShopModalOpen && <QuickShop />}
+        {isQuickShopPLPModalOpen && <QuickShopPLP />}
         <section
           className="category-page"
           onClick={() => {
@@ -61,7 +61,7 @@ export class CategoryPage extends Component<Props> {
 const mapStateToProps = (state: RootState) => {
   return {
     isCartModalOpen: state.modalCartReducer.isCartModalOpen,
-    isQuickShopModalOpen: state.quickShopReducer.isQuickShopModalOpen,
+    isQuickShopPLPModalOpen: state.quickShopReducer.isQuickShopPLPModalOpen,
   };
 };
 

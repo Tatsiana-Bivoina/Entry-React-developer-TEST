@@ -9,7 +9,7 @@ import ProductPhotoCarousel from '../product-photo-carousel/ProductPhotoCarousel
 
 export interface CartItemProps extends PropsFromRedux {
   data: CartDataType;
-  key: number;
+  key: string;
   pageName: string;
 }
 

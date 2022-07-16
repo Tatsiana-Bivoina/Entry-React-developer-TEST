@@ -18,8 +18,8 @@ export class CartProductsContainer extends Component<Props> {
       <div
         className={pageName === 'cart-page' ? 'cart-items-container' : 'cart-items-container modal'}
       >
-        {productsInCart.map((el: CartDataType, index: number) => (
-          <CartItem data={el} key={index} pageName={pageName} />
+        {productsInCart.map((el: CartDataType) => (
+          <CartItem data={el} key={el.generatedId} pageName={pageName} />
         ))}
       </div>
     );
