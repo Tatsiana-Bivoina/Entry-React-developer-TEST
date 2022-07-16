@@ -41,7 +41,7 @@ class App extends Component<Props, AppState> {
   render() {
     return (
       <Routes>
-        <Route path="/" element={<Layout />}>
+        <Route path="/" element={<Layout categories={this.state.categories} />}>
           {this.state.categories.length !== 0 && (
             <React.Fragment>
               <Route

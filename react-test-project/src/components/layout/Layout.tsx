@@ -2,11 +2,17 @@ import React, { Component } from 'react';
 import { Outlet } from 'react-router';
 import Header from '../header/Header';
 
-export class Layout extends Component {
+interface LayoutProps {
+  categories: string[];
+}
+
+type Props = Readonly<LayoutProps>;
+
+export class Layout extends Component<Props> {
   render() {
     return (
       <>
-        <Header />
+        <Header categories={this.props.categories} />
         <main className="main">
           <Outlet />
         </main>

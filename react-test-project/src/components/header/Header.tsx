@@ -81,7 +81,11 @@ const ListItem = styled('li')`
   }
 `;
 
-export type Props = Readonly<PropsFromRedux>;
+interface HeaderProps extends PropsFromRedux {
+  categories: string[];
+}
+
+type Props = Readonly<HeaderProps>;
 
 type HeaderState = {
   currency: CurrenciesDataType[];
@@ -132,6 +136,7 @@ export class Header extends Component<Props, HeaderState> {
       productsInCart,
       totalCount,
       toggleCurrencySwitcher,
+      categories,
     } = this.props;
 
     return (
@@ -145,24 +150,15 @@ export class Header extends Component<Props, HeaderState> {
         <div className="wrapper">
           <div className="header-container">
             <div className="page-navigation">
-              <NavLink
-                to="/category/all"
-                className={({ isActive }) => (isActive ? 'nav-item active' : 'nav-item')}
-              >
-                All
-              </NavLink>
-              <NavLink
-                to="/category/clothes"
-                className={({ isActive }) => (isActive ? 'nav-item active' : 'nav-item')}
-              >
-                Clothes
-              </NavLink>
-              <NavLink
-                to="/category/tech"
-                className={({ isActive }) => (isActive ? 'nav-item active' : 'nav-item')}
-              >
-                Tech
-              </NavLink>
+              {categories.map((el: string, index: number) => (
+                <NavLink
+                  key={index}
+                  to={`/category/${el}`}
+                  className={({ isActive }) => (isActive ? 'nav-item active' : 'nav-item')}
+                >
+                  {el}
+                </NavLink>
+              ))}
             </div>
             <div className="logo-container">
               <img src="icons/a-logo.png" alt="logo" />
